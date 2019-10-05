@@ -5,15 +5,18 @@ class UIElement {
         this.bounds = bounds;
         this.setSprites(sprites);
         this.sticky = sticky;
+        this.targetAlpha = 0;
     }
     setSprites(sprites) {
-        if(this.element != null) {
-            this.app.stage.removeChild(this.element)
-
+        if(this.element == null) {
+            this.element = new PIXI.Container();
+        } else {
+            this.element.children.forEach(child => {
+                this.element.removeChild(child);
+            });
         }
         // Wrap with array if it's not an array.
         if(Array.isArray(sprites)) {
-            this.element = new PIXI.Container();
             sprites.forEach((sprite) => {
                 this.element.addChild(sprite);
             });
@@ -25,6 +28,11 @@ class UIElement {
         this.set = true;
     }
     update(delta) {
+        if(this.element.alpha  !== this.targetAlpha) {
+            let alphaVal = this.element.alpha;
+            alphaVal = stepTowards(alphaVal, this.targetAlpha, 0.01);
+            this.setAlphaImmediate(alphaVal);
+        }
         this.element.position.set(this.bounds.x, this.bounds.y);
         if(this.sticky) {
             let relX = (this.app.screen.width / 2) - this.bounds.x;
@@ -36,15 +44,65 @@ class UIElement {
     destroy() {
         this.app.stage.removeChild(this.element)
     }
+    setAlphaImmediate(alpha) {
+        this.element.alpha = alpha;
+    }
     setAlpha(alpha) {
-        this.sprite.alpha = alpha;
+        this.targetAlpha = alpha;
     }
 }
+class AmmoCounter extends UIElement {
+    constructor(app, bounds, player) {
+        super(app, bounds, [], true);
+        this.text = new PIXI.Text("Ammo: 0", {fontSize: 36, fill: 0xFFFFFF, align: 'center'});
+        this.setSprites(this.text);
+        this.player = player;
+        this.setAlphaImmediate(0)
+    }
 
-class HealthBar extends UIElement{
+    update(delta) {
+        super.update(delta);
+        this.setAmmo(this.player.weaponRanged.ammo)
+    }
+    setAmmo(amount) {
+        this.text.text = `Ammo: ${amount}`;
+    }
+
+    setAlphaImmediate(alpha) {
+        super.setAlphaImmediate(alpha);
+        this.text.alpha = alpha
+    }
+
+}
+class KillCounter extends UIElement {
+    constructor(app, bounds, trackLiving) {
+        super(app, bounds, [], true);
+        this.text = new PIXI.Text("Kills: 0", {fontSize: 36, fill: 0xFFFFFF, align: 'center'});
+        this.setSprites(this.text);
+        this.trackLiving = trackLiving;
+        this.setAlphaImmediate(0)
+    }
+
+    update(delta) {
+        super.update(delta);
+        this.setKills(this.trackLiving.killCount)
+    }
+    setKills(amount) {
+        this.text.text = `Kills: ${amount}`;
+    }
+
+    setAlphaImmediate(alpha) {
+        super.setAlphaImmediate(alpha);
+        this.text.alpha = alpha
+    }
+
+}
+
+class HealthBar extends UIElement {
     constructor(app, bounds, health, maxHealth, sticky) {
         super(app, bounds, [], sticky);
         this.setHealth(health, maxHealth);
+        this.setAlphaImmediate(0)
     }
     setHealth(health, maxHealth) {
         this.health = health;
@@ -54,12 +112,12 @@ class HealthBar extends UIElement{
             let sprite;
             if(i < this.health - (this.health % 2)) {
                 // Normal heart
-                sprite = getSingleFromSpritesheet("16x16.json", "heart_0.png");
+                sprite = getSingleFromSpritesheet("tiles.json", "heart_0");
             } else if(this.health - i === 1) {
-                sprite = getSingleFromSpritesheet("16x16.json", "heart_1.png");
+                sprite = getSingleFromSpritesheet("tiles.json", "heart_1");
             } else {
                 // Empty
-                sprite = getSingleFromSpritesheet("16x16.json", "heart_2.png");
+                sprite = getSingleFromSpritesheet("tiles.json", "heart_2");
             }
             let padding = 5;
             let xLoc = (Math.round(i / 2) + 1) * (sprite.width + padding);

@@ -1,17 +1,21 @@
-
+ENTITY_ID = 0;
 class Entity {
+    idleAnim = "player_shitty_idle";
+    drag = 0.28;
+    gravity = 0.198;
     TYPE_PLAYER = 0;
     TYPE_ENEMY = 1;
-    constructor(app, stage, sprite, spritesheet, id) {
+    constructor(app, sprite, spritesheet) {
         this.app = app;
-        this.stage = stage;
+        this.stage = app.stage;
         this.sprite = sprite;
-        this.id = id;
+        this.id = ENTITY_ID++;
         this.velX = 0;
         this.velY = 0;
         this.speedX = 3;
         this.speedY = 4;
-        this.maxVelX = 5;
+
+        this.maxVelX = 8;
         this.maxVelY = 8;
         this.playingAnimation = null;
         this.animationState = null;
@@ -19,7 +23,8 @@ class Entity {
         this.spritesheet = spritesheet;
         this.type = -1;
         this.rightFacing = true;
-        stage.addChild(this.sprite);
+        this.dead = false;
+        app.stage.addChild(this.sprite);
     }
 
     setAnimation(name, region, speed) {
@@ -38,20 +43,27 @@ class Entity {
     collidesWith(boxB) {
         return bump.hitTestRectangle(this.sprite, boxB)
     }
+    doCollideWith(boxB) {
+        return bump.rectangleCollision(this.sprite, boxB, false);
+    }
     update(delta, world) {
         this.velX = clamp(this.velX, -this.maxVelX, this.maxVelX);
-        this.velX = stepTowards(this.velX, 0, drag * delta);
         this.velY = clamp(this.velY, -this.maxVelY, this.maxVelY);
 
         // ground logic
         this.onGround = false;
-        if(this.collidesWith(world.ground)) {
-            this.velY = clamp(this.velY, -this.maxVelY, 0);
-            this.onGround = true;
-            this.setY(world.ground.y - (this.sprite.height / 2))
+        world.platforms.forEach((platform) => {
+            if(this.collidesWith(platform)) {
+                let collision = this.doCollideWith(platform);
+                this.onGround = this.onGround || collision === "bottom";
+            }
+
+        });
+        if(this.onGround) {
+            this.velX = stepTowards(this.velX, 0, this.drag * delta);
         }
 
-        this.velY += gravity * delta;
+        this.velY += this.gravity * delta;
 
         if(this.getX() + this.velX >= world.ground.right) {
             this.velX = world.ground.right - this.getX();
@@ -67,12 +79,27 @@ class Entity {
             this.velY -= this.speedY * delta;
         }
     }
+    playAnimForCondition(walkAnimName, speed, condition) {
+        if(condition) {
+            this.playAnimation(walkAnimName, speed);
+            if(!this.sprite.animState.playing) {
+                this.sprite.animState.play();
+            }
+        } else {
+            if(this.playingAnimation === walkAnimName && this.sprite.animState != null && this.sprite.animState.playing) {
+                this.sprite.animState.stop();
+            }
+        }
+        return condition;
+    }
     walkTowards(x, y, stopDist, canJump, delta) {
         let closeEnough = true;
         if(this.getX() <= x - stopDist) {
+            this.setSpriteDirection(true);
             this.velX += this.speedX;
             closeEnough = false;
-        } else if(this.getX() >= x + stopDist) {
+        } else if(this.getX() > x + stopDist) {
+            this.setSpriteDirection(false);
             this.velX -= this.speedX;
             closeEnough = false;
         }
@@ -83,7 +110,7 @@ class Entity {
             this.jump(delta);
             closeEnough = false;
         }
-        return closeEnough;
+        return closeEnough && Math.abs(this.getY() - y) < stopDist;
     }
     getX() {
         return this.sprite.position.x;
@@ -113,6 +140,7 @@ class Entity {
     playAnimation(name, speed) {
         if(this.playingAnimation !== name) {
             this.setAnimation(this.spritesheet, name, speed);
+            this.sprite.animState.loop = true;
             this.playingAnimation = name;
         }
     }
@@ -131,6 +159,19 @@ class Entity {
         });
         return found;
     }
+    applyForce(xDist, yDist, amount) {
+        let point = {x: xDist, y: yDist};
+        normalize(point);
+
+        let forceX = point.x * amount;
+        let forceY = point.y * amount;
+        this.velX += forceX;
+        this.velY += forceY;
+    }
+    onCollision(withEntity) {}
+    kill() {
+        this.dead = true;
+    }
     destroy() {
         this.stage.removeChild(this.sprite);
     }
@@ -138,8 +179,8 @@ class Entity {
 
 
 class Living extends Entity {
-    constructor(app, stage, healthBar, sprite, spritesheet, id, maxHealth, damageDealt) {
-        super(app, stage, sprite, spritesheet, id);
+    constructor(app, healthBar, sprite, spritesheet, maxHealth, damageDealt) {
+        super(app, sprite, spritesheet);
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         if(healthBar) {
@@ -147,7 +188,9 @@ class Living extends Entity {
         }
         this.healthBar = healthBar;
         this.damageDealt = damageDealt;
-        this.dead = false;
+
+        this.killCount = 0;
+
         // Cooldown for attacking others
         this.attackCooldownSec = 0.3;
         this.lastAttack = 0;
@@ -169,19 +212,34 @@ class Living extends Entity {
             this.healthBar.setHealth(this.health, this.maxHealth);
         }
         if(this.health <= 0) {
-            this.dead = true;
+            this.kill()
         }
     }
 
-    //TODO: Support for attacking multiple if needed.
-    attack(living) {
-        let curAttackTime = performance.now();
-        if((curAttackTime - this.lastAttack) / 1000 < this.attackCooldownSec) {
-            return;
+    attack(entities, damage, knockbackAmount, ignoreCooldown) {
+        if(!Array.isArray(entities)) {
+            entities = [entities];
         }
-        living.takeDamage(this.damageDealt);
+        let curAttackTime = performance.now();
+        if(!ignoreCooldown) {
+            if ((curAttackTime - this.lastAttack) / 1000 < this.attackCooldownSec) {
+                return;
+            }
+        }
+        entities.forEach(entity => {
+            entity.takeDamage(this.damageDealt);
+            if(entity.health <= 0) {
+                this.killCount++;
+                this.onKill(entity)
+            }
+            // Apply knockback
+            entity.applyForce(entity.getX() - this.getX(), -2, knockbackAmount || 20);
+        });
+
         this.lastAttack = curAttackTime
     }
+
+    onKill(entityKilled) {}
 
     update(delta, world) {
         super.update(delta, world);
@@ -195,28 +253,36 @@ class Living extends Entity {
 }
 
 
-const drag = 0.18;
-const gravity = 0.198;
 
 class Player extends Living {
-    MELEE_ANIM = "player_shitty_melee";
     WALK_ANIM = "player_shitty_walk";
-    constructor(app, stage, healthBar, id) {
-        super(app, stage, healthBar, getSingleFromSpritesheet("32x32.json", "player_shitty_walk_0.png"), "32x32.json", id, 20, 2);
+    constructor(app, healthBar) {
+        super(app, healthBar, getSingleFromSpritesheet("entities.json", "player_shitty_walk_0"), "entities.json", 20, 2);
         this.keyLeft = keyboard("a");
         this.keyRight = keyboard("d");
         this.keyJump = keyboard("w");
         this.keyAltJump = keyboard(" ");
         this.mouseLastDown = 0;
         this.type = this.TYPE_PLAYER;
+        this.weaponMelee = new Fist(app, this.world);
+        this.weaponRanged = new Rock(app, this.world);
     }
+    onKill(entityKilled) {
+        let event = new CustomEvent('playerkill');
+        event.player = this;
+        event.totalKills = this.killCount;
+        window.dispatchEvent(event);
+    }
+
     update(delta, world) {
         let lrAnim = false;
         if(this.keyRight.isDown) {
+            this.setSpriteDirection(true);
             this.velX += this.speedX * delta;
             lrAnim = true;
         }
         if(this.keyLeft.isDown) {
+            this.setSpriteDirection(false);
             this.velX -= this.speedX * delta;
             lrAnim = true;
         }
@@ -225,65 +291,139 @@ class Player extends Living {
         }
 
         let now = performance.now();
-        if(Mouse.Down && (now - this.mouseLastDown) / 1000 > this.attackCooldownSec) {
-            if(this.sprite.animState && this.sprite.animState.playing) {
-                this.sprite.animState.stop()
-            }
-            this.playAnimation(this.MELEE_ANIM, 0.2);
-            this.sprite.animState.loop = false;
-            this.sprite.animState.gotoAndPlay(0);
+        let pastCooldown = (now - this.mouseLastDown) / 1000 > this.attackCooldownSec;
+        if(Mouse.LeftDown && pastCooldown) {
+            this.weaponMelee.useWeapon(this, world);
             this.mouseLastDown = now;
-            this.getNearbyEntities(this.TYPE_ENEMY, 200).forEach(enemy => {
-                if(this.rightFacing && enemy.getX() >= this.getX()) {
-                    this.attack(enemy)
-                } else if(!this.rightFacing && enemy.getX() < this.getX()) {
-                    this.attack(enemy);
-                }
-            });
+        } else if(Mouse.RightDown && pastCooldown) {
+            this.weaponRanged.useWeapon(this, world);
+            this.mouseLastDown = now;
         }
 
         // Skip walk anim if we're attacking.
-        if(this.sprite.animState && this.sprite.animState.playing && this.playingAnimation === this.MELEE_ANIM) {
+        if(this.sprite.animState && this.sprite.animState.playing
+            && (this.playingAnimation === this.weaponMelee.attackAnim || this.playingAnimation === this.weaponRanged.attackAnim)) {
             super.update(delta, world);
             return;
         }
-
-        if(Math.abs(this.velX) > drag && this.onGround) {
-            if(this.velX < 0){
-                this.setSpriteDirection(false);
-            } else {
-                this.setSpriteDirection(true);
-            }
-            this.playAnimation(this.WALK_ANIM, 0.2);
-            if(!this.sprite.animState.playing) {
-                this.sprite.animState.play()
-            }
-        } else {
-            if(this.sprite.animState != null && this.sprite.animState.playing) {
-                this.sprite.animState.stop()
-            }
-        }
+        let walking = this.playAnimForCondition(this.WALK_ANIM, 0.2, Math.abs(this.velX) > this.drag && this.onGround);
+        this.playAnimForCondition(this.idleAnim, 0.05, !walking);
         super.update(delta, world);
     }
 }
 
 class Enemy extends Living {
-    constructor(app, stage, hb, id) {
-        super(app, stage, hb, getSingleFromSpritesheet("p2_walk.json", "char_10000"), "p2_walk.json", id, 6, 2);
+    WALK_ANIM = "slime_walk";
+    constructor(app, hb, maxHealth, damageDealt) {
+        super(app, hb, getSingleFromSpritesheet("entities.json", "slime_idle_0"), "entities.json", maxHealth, damageDealt);
         super.speedX = 0.5;
-        super.maxVelX = 2.5;
+        super.maxVelX = 5;
         super.maxVelY = 6;
         super.speedY = 2;
-        super.damageDealt = 1;
         this.type = this.TYPE_ENEMY;
     }
     update(delta, world) {
-        let done = this.walkTowards(world.player.getX(), world.player.getY(), 100, true, delta);
+        let done = this.walkTowards(world.player.getX(), world.player.getY(), 20, true, delta);
         if(done) {
-            this.attack(world.player);
+            this.attack(world.player, this.damageDealt);
         }
         super.update(delta, world);
         this.healthBar.bounds.x = this.sprite.position.x - (this.sprite.width / 2);
         this.healthBar.bounds.y = this.sprite.position.y - this.sprite.height - 20;
+    }
+}
+class EnemySlime extends Enemy {
+    WALK_ANIM = "slime_walk";
+    constructor(app, hb) {
+        super(app, hb, 4, 1);
+        super.speedX = 0.2;
+        super.speedY = 5;
+        this.idleAnim = "slime_idle"
+    }
+    update(delta, world) {
+        if(Math.random() * 100 <= 30) {
+            this.jump(delta)
+        }
+        if(this.onGround) {
+            this.velX = 0;
+        }
+        let walking = this.playAnimForCondition(this.WALK_ANIM, 0.2, Math.abs(this.velX) > this.drag || !this.onGround);
+        this.playAnimForCondition(this.idleAnim, 0.05, !walking);
+        super.update(delta, world);
+    }
+}
+
+class PickupItem extends Entity {
+    constructor(app, sprite, spritesheet, player) {
+        super(app, sprite, spritesheet);
+        this.player = player;
+    }
+    onCollision(withEntity) {
+        if(withEntity.id !== this.player.id) {
+            return;
+        }
+        this.onPickup(withEntity);
+        super.onCollision(withEntity);
+    }
+    onPickup(player) {}
+}
+class AmmoPickup extends PickupItem {
+    constructor(app, sprite, spritesheet, player, forWeaponType) {
+        super(app, sprite, spritesheet, player);
+        this.forWeaponType = forWeaponType;
+    }
+    onPickup(player) {
+        if(player.weaponRanged instanceof this.forWeaponType) {
+            player.weaponRanged.ammo += 1;
+            this.kill();
+        }
+        if(player.weaponMelee instanceof this.forWeaponType) {
+            player.weaponMelee.ammo += 1;
+            this.kill();
+        }
+    }
+}
+
+class AmmoPickupRock extends AmmoPickup {
+    constructor(app, player) {
+        super(app, getSingleFromSpritesheet("tiles.json", "rock_shitty"), "tiles.json", player, Rock);
+    }
+}
+
+class Projectile extends Entity {
+    constructor(app, sprite, spritesheet, dirVector, speed) {
+        super(app, sprite, spritesheet);
+        // Basically no cap here.
+        super.maxVelX = 1000;
+        super.maxVelY = 1000;
+        super.drag = 0;
+        super.velX = dirVector.x * speed;
+        super.velY = dirVector.y * speed;
+    }
+
+}
+class ProjectileRock extends Projectile {
+    constructor(app, weaponRock, launcher, dirVector, speed) {
+        super(app, getSingleFromSpritesheet("projectiles.json", "projectile_rock"), "projectiles.json", dirVector, speed);
+        this.weaponRock = weaponRock;
+        this.launcher = launcher
+    }
+    update(delta, world) {
+        super.update(delta, world);
+        if(this.onGround) {
+            this.kill();
+        }
+    }
+
+    onCollision(withEntity) {
+        super.onCollision(withEntity);
+        if(withEntity.id === this.launcher.id) {
+            return;
+        }
+        if(withEntity instanceof Living) {
+            this.launcher.attack(withEntity, this.weaponRock.damageDealt, this.weaponRock.knockback, true);
+            withEntity.takeDamage(this.weaponRock.damage);
+            this.kill();
+        }
     }
 }

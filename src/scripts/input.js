@@ -46,11 +46,28 @@ function keyboard(value) {
 }
 
 let Mouse = {
-    Down: false,
+    LeftDown: false,
+    RightDown: false,
+    X: 0,
+    Y: 0
 };
 window.addEventListener("mousedown", e => {
-    Mouse.Down = true;
+    if(e.button === 0) {
+        Mouse.LeftDown = true;
+    } else if (e.button === 2) {
+        Mouse.RightDown = true;
+    }
+    e.preventDefault()
 });
 window.addEventListener("mouseup", e => {
-    Mouse.Down = false;
+    if(e.button === 0) {
+        Mouse.LeftDown = false;
+    } else if (e.button === 2) {
+        Mouse.RightDown = false;
+    }
+    e.preventDefault()
+});
+window.addEventListener("mousemove", e => {
+    Mouse.X = e.pageX;
+    Mouse.Y = e.pageY;
 });
