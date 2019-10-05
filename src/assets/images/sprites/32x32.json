@@ -2,107 +2,107 @@
 
 "player_shitty_idle_0":
 {
-	"frame": {"x":1,"y":1,"w":32,"h":32},
+	"frame": {"x":1,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "player_shitty_idle_1":
 {
-	"frame": {"x":34,"y":1,"w":32,"h":32},
+	"frame": {"x":66,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "player_shitty_melee_0":
 {
-	"frame": {"x":67,"y":1,"w":32,"h":32},
+	"frame": {"x":131,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "player_shitty_melee_1":
 {
-	"frame": {"x":100,"y":1,"w":32,"h":32},
+	"frame": {"x":196,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "player_shitty_melee_2":
 {
-	"frame": {"x":133,"y":1,"w":32,"h":32},
+	"frame": {"x":261,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "player_shitty_walk_0":
 {
-	"frame": {"x":166,"y":1,"w":32,"h":32},
+	"frame": {"x":326,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "player_shitty_walk_1":
 {
-	"frame": {"x":199,"y":1,"w":32,"h":32},
+	"frame": {"x":391,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "player_shitty_walk_2":
 {
-	"frame": {"x":232,"y":1,"w":32,"h":32},
+	"frame": {"x":456,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "slime_idle_0":
 {
-	"frame": {"x":265,"y":1,"w":32,"h":32},
+	"frame": {"x":521,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "slime_idle_1":
 {
-	"frame": {"x":298,"y":1,"w":32,"h":32},
+	"frame": {"x":586,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "slime_walk_0":
 {
-	"frame": {"x":331,"y":1,"w":32,"h":32},
+	"frame": {"x":651,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "slime_walk_1":
 {
-	"frame": {"x":364,"y":1,"w":32,"h":32},
+	"frame": {"x":716,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 "slime_walk_2":
 {
-	"frame": {"x":397,"y":1,"w":32,"h":32},
+	"frame": {"x":781,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 }},
 "animations": {
 	"player_shitty_idle": ["player_shitty_idle_0","player_shitty_idle_1"],
@@ -116,8 +116,8 @@
 	"version": "1.0",
 	"image": "32x32.png",
 	"format": "RGBA8888",
-	"size": {"w":430,"h":34},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8310fcc2d4672bd3ed1d39da362d4eaf:f0711d7ed9ed8f2bd4cdfc6067bd4821:d8d6dab019f5661f48bc3c82c17c31e6$"
+	"size": {"w":846,"h":66},
+	"scale": "2",
+	"smartupdate": "$TexturePacker:SmartUpdate:018a9bfcb7e7cf08f2a7b7e56b23a1c8:f0711d7ed9ed8f2bd4cdfc6067bd4821:d8d6dab019f5661f48bc3c82c17c31e6$"
 }
 }

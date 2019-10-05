@@ -2,65 +2,65 @@
 
 "background_shitty":
 {
-	"frame": {"x":1,"y":1,"w":16,"h":16},
+	"frame": {"x":1,"y":1,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0.5,"y":0.5}
 },
 "ground_shitty":
 {
-	"frame": {"x":18,"y":1,"w":16,"h":16},
+	"frame": {"x":34,"y":1,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0.5,"y":0.5}
 },
 "heart_0":
 {
-	"frame": {"x":35,"y":1,"w":16,"h":16},
+	"frame": {"x":67,"y":1,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0.5,"y":0.5}
 },
 "heart_1":
 {
-	"frame": {"x":1,"y":18,"w":16,"h":16},
+	"frame": {"x":1,"y":34,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0.5,"y":0.5}
 },
 "heart_2":
 {
-	"frame": {"x":18,"y":18,"w":16,"h":16},
+	"frame": {"x":34,"y":34,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0.5,"y":0.5}
 },
 "rock_shitty":
 {
-	"frame": {"x":35,"y":18,"w":16,"h":16},
+	"frame": {"x":67,"y":34,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0.5,"y":0.5}
 },
 "stick_shitty":
 {
-	"frame": {"x":1,"y":35,"w":16,"h":16},
+	"frame": {"x":1,"y":67,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16},
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0.5,"y":0.5}
 }},
 "animations": {
@@ -71,8 +71,8 @@
 	"version": "1.0",
 	"image": "16x16.png",
 	"format": "RGBA8888",
-	"size": {"w":52,"h":52},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:5c67e6ca92152c6d7cb0b31e68325ec3:15edd5a11b807868e1630247d1b0974d:adaa67992d5acc2082dca80e732f53e7$"
+	"size": {"w":100,"h":100},
+	"scale": "2",
+	"smartupdate": "$TexturePacker:SmartUpdate:61b09f93a73782a2a51aab52409a1364:15edd5a11b807868e1630247d1b0974d:adaa67992d5acc2082dca80e732f53e7$"
 }
 }
