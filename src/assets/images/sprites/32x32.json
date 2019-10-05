@@ -79,20 +79,45 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
 	"sourceSize": {"w":32,"h":32}
+},
+"slime_walk_0.png":
+{
+	"frame": {"x":320,"y":0,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"slime_walk_1.png":
+{
+	"frame": {"x":352,"y":0,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"slime_walk_2.png":
+{
+	"frame": {"x":384,"y":0,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
 }},
 "animations": {
 	"player_shitty_idle": ["player_shitty_idle_0.png","player_shitty_idle_1.png"],
 	"player_shitty_melee": ["player_shitty_melee_0.png","player_shitty_melee_1.png","player_shitty_melee_2.png"],
 	"player_shitty_walk": ["player_shitty_walk_0.png","player_shitty_walk_1.png","player_shitty_walk_2.png"],
-	"slime_idle": ["slime_idle_0.png","slime_idle_1.png"]
+	"slime_idle": ["slime_idle_0.png","slime_idle_1.png"],
+	"slime_walk": ["slime_walk_0.png","slime_walk_1.png","slime_walk_2.png"]
 },
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "32x32.png",
 	"format": "RGBA8888",
-	"size": {"w":320,"h":32},
+	"size": {"w":416,"h":32},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:174f1b90b70c6e27c4beab4022833caa:c965c039236fe3183d08826208946339:d8d6dab019f5661f48bc3c82c17c31e6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:13c536bb6fa2967da9f6713dd326eb79:f0711d7ed9ed8f2bd4cdfc6067bd4821:d8d6dab019f5661f48bc3c82c17c31e6$"
 }
 }
