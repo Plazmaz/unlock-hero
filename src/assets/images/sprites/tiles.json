@@ -72,7 +72,7 @@
 	"image": "tiles.png",
 	"format": "RGBA8888",
 	"size": {"w":100,"h":100},
-	"scale": "2",
-	"smartupdate": "$TexturePacker:SmartUpdate:e17c064d0e9580255214a0e260291ba6:15edd5a11b807868e1630247d1b0974d:accbe1e7e294ded8391337fc1c446319$"
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a6ed4f328c33c46af10bd5e9615b9a6f:73a9527058f1ba780d2ea49d1cac0d4f:accbe1e7e294ded8391337fc1c446319$"
 }
 }

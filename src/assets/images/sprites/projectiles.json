@@ -14,7 +14,7 @@
 	"image": "projectiles.png",
 	"format": "RGBA8888",
 	"size": {"w":10,"h":10},
-	"scale": "2",
-	"smartupdate": "$TexturePacker:SmartUpdate:84588b3777118afec3a4718e1776aa0d:92298ab49621c7980e226d8c2b73c628:9b6e6842273e8724f51d1457138f1678$"
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a9646a77a4266aa40e7f114e5aeb1439:45817eb0651318710a0203bc784674a4:9b6e6842273e8724f51d1457138f1678$"
 }
 }

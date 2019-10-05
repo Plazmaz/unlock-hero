@@ -167,7 +167,7 @@
 	"image": "entities.png",
 	"format": "RGBA8888",
 	"size": {"w":1236,"h":66},
-	"scale": "2",
-	"smartupdate": "$TexturePacker:SmartUpdate:831ec4ee9dc182f9f6ae4a5e76c4157b:16ad16d342003dbd1b7897f13daa7a9b:d80676a5e85c5032e708efda4f84d8e3$"
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:70410dc38fb4e7180ef3e6d17061227d:ce8ad5c0e1716485b27756ae9907b616:d80676a5e85c5032e708efda4f84d8e3$"
 }
 }
