@@ -9,7 +9,7 @@
 	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0.5,"y":0.5}
 },
-"ground":
+"ground_center":
 {
 	"frame": {"x":34,"y":1,"w":32,"h":32},
 	"rotated": false,
@@ -18,16 +18,25 @@
 	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0,"y":0}
 },
-"ground_shitty":
+"ground_dirt":
 {
 	"frame": {"x":67,"y":1,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
 	"sourceSize": {"w":32,"h":32},
-	"anchor": {"x":0.5,"y":0.5}
+	"anchor": {"x":0,"y":0}
 },
-"heart_0":
+"ground_edge":
+{
+	"frame": {"x":100,"y":1,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
+	"anchor": {"x":0,"y":0}
+},
+"ground_shitty":
 {
 	"frame": {"x":1,"y":34,"w":32,"h":32},
 	"rotated": false,
@@ -36,7 +45,7 @@
 	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0.5,"y":0.5}
 },
-"heart_1":
+"heart_0":
 {
 	"frame": {"x":34,"y":34,"w":32,"h":32},
 	"rotated": false,
@@ -45,9 +54,18 @@
 	"sourceSize": {"w":32,"h":32},
 	"anchor": {"x":0.5,"y":0.5}
 },
-"heart_2":
+"heart_1":
 {
 	"frame": {"x":67,"y":34,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
+	"anchor": {"x":0.5,"y":0.5}
+},
+"heart_2":
+{
+	"frame": {"x":100,"y":34,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -80,8 +98,8 @@
 	"version": "1.0",
 	"image": "tiles.png",
 	"format": "RGBA8888",
-	"size": {"w":100,"h":100},
+	"size": {"w":133,"h":133},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:acc3211c36df252f9e65161bb6cf2872:1eb55fe0b568229b98fa7576480d32b6:accbe1e7e294ded8391337fc1c446319$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a98747f9ef49e63650bfa7590dfe1905:71eff8a8f57aaeb51519a5b8200e56c5:accbe1e7e294ded8391337fc1c446319$"
 }
 }
