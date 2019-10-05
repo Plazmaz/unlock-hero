@@ -1,71 +1,78 @@
 {"frames": {
 
-"background_shitty.png":
+"background_shitty":
 {
-	"frame": {"x":0,"y":0,"w":16,"h":16},
+	"frame": {"x":1,"y":1,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
 },
-"ground_shitty.png":
+"ground_shitty":
 {
-	"frame": {"x":16,"y":0,"w":16,"h":16},
+	"frame": {"x":18,"y":1,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
 },
-"heart_0.png":
+"heart_0":
 {
-	"frame": {"x":32,"y":0,"w":16,"h":16},
+	"frame": {"x":35,"y":1,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
 },
-"heart_1.png":
+"heart_1":
 {
-	"frame": {"x":0,"y":16,"w":16,"h":16},
+	"frame": {"x":1,"y":18,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
 },
-"heart_2.png":
+"heart_2":
 {
-	"frame": {"x":16,"y":16,"w":16,"h":16},
+	"frame": {"x":18,"y":18,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
 },
-"rock_shitty.png":
+"rock_shitty":
 {
-	"frame": {"x":32,"y":16,"w":16,"h":16},
+	"frame": {"x":35,"y":18,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
 },
-"stick_shitty.png":
+"stick_shitty":
 {
-	"frame": {"x":0,"y":32,"w":16,"h":16},
+	"frame": {"x":1,"y":35,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
+	"sourceSize": {"w":16,"h":16},
+	"anchor": {"x":0.5,"y":0.5}
 }},
 "animations": {
-	"heart": ["heart_0.png","heart_1.png","heart_2.png"]
+	"heart": ["heart_0","heart_1","heart_2"]
 },
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "16x16.png",
 	"format": "RGBA8888",
-	"size": {"w":48,"h":48},
+	"size": {"w":52,"h":52},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:45c30e4ad34fa4adf5b88f6372d0ee73:15edd5a11b807868e1630247d1b0974d:adaa67992d5acc2082dca80e732f53e7$"
+	"smartupdate": "$TexturePacker:SmartUpdate:5c67e6ca92152c6d7cb0b31e68325ec3:15edd5a11b807868e1630247d1b0974d:adaa67992d5acc2082dca80e732f53e7$"
 }
 }
