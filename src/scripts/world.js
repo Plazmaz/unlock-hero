@@ -12,10 +12,23 @@ class World {
         this.app = app;
     }
 
+    spawnEnemy() {
+        let hb = new HealthBar(app, new PIXI.Rectangle(0, 0, 500, 80), 0, 0, false);
+        this.entities.push(new Enemy(this.app, this.app.stage, hb, 0));
+    }
+
+    spawnEnemies(count) {
+
+    }
+
     update(delta) {
         app.stage.position.set(app.screen.width / 2, app.screen.height / 2);
         app.stage.pivot.copy(this.player.sprite.position);
         this.entities.forEach((entity, idx) => {
+            if(entity instanceof Living && entity.dead) {
+                entity.destroy();
+                this.entities.splice(idx, 1);
+            }
             entity.update(delta, world)
         })
     }

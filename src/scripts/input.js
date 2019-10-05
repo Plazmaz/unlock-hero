@@ -44,3 +44,13 @@ function keyboard(value) {
 
     return key;
 }
+
+let Mouse = {
+    Down: false,
+};
+window.addEventListener("mousedown", e => {
+    Mouse.Down = true;
+});
+window.addEventListener("mouseup", e => {
+    Mouse.Down = false;
+});

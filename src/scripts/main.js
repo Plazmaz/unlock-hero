@@ -12,13 +12,12 @@ let app = new PIXI.Application({
 
 PIXI.loader
     .add("assets/images/char.png")
-    .add("assets/images/sprites/p1_walk.json")
+    .add("assets/images/sprites/16x16.json")
+    .add("assets/images/sprites/32x32.json")
     .add("assets/images/sprites/p2_walk.json")
     .load(loadFinished);
 
-window.onload = () => {
-    document.body.appendChild(app.view);
-};
+document.body.appendChild(app.view);
 
 function clamp(val, min, max) {
     return Math.min(Math.max(val, min), max);
@@ -38,16 +37,20 @@ function stepTowards(val, target, step) {
 }
 
 const world = new World(app, true);
+let hb;
 
 function runUpdate(delta) {
     world.update(delta);
 }
 
 function loadFinished() {
-    let player = new Player(app, app.stage, 0);
+    hb = new HealthBar(app, new PIXI.Rectangle(0, 0, 500, 80), 11, 20, true);
+    let player = new Player(app, app.stage, hb, 0);
+
+    app.renderer.backgroundColor = 0x60959a;
     world.player = player;
     world.entities.push(player);
-    world.entities.push(new Enemy(app, app.stage, 0));
+    world.spawnEnemy();
 
     app.ticker.add((delta) => {
         runUpdate(delta)
