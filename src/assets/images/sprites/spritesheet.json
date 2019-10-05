@@ -2,7 +2,7 @@
 
 "background_shitty.png":
 {
-	"frame": {"x":0,"y":0,"w":16,"h":16},
+	"frame": {"x":64,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -10,7 +10,7 @@
 },
 "ground_shitty.png":
 {
-	"frame": {"x":16,"y":0,"w":16,"h":16},
+	"frame": {"x":96,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -18,7 +18,7 @@
 },
 "heart_0.png":
 {
-	"frame": {"x":0,"y":16,"w":16,"h":16},
+	"frame": {"x":80,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -26,7 +26,7 @@
 },
 "heart_1.png":
 {
-	"frame": {"x":16,"y":16,"w":16,"h":16},
+	"frame": {"x":32,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -34,7 +34,7 @@
 },
 "heart_2.png":
 {
-	"frame": {"x":0,"y":32,"w":16,"h":16},
+	"frame": {"x":16,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -42,7 +42,7 @@
 },
 "player_shitty_idle_0.png":
 {
-	"frame": {"x":0,"y":48,"w":32,"h":32},
+	"frame": {"x":0,"y":16,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -50,7 +50,7 @@
 },
 "player_shitty_idle_1.png":
 {
-	"frame": {"x":0,"y":80,"w":32,"h":32},
+	"frame": {"x":64,"y":48,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -58,7 +58,7 @@
 },
 "player_shitty_melee_0.png":
 {
-	"frame": {"x":0,"y":112,"w":32,"h":32},
+	"frame": {"x":32,"y":80,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -66,7 +66,7 @@
 },
 "player_shitty_melee_1.png":
 {
-	"frame": {"x":0,"y":144,"w":32,"h":32},
+	"frame": {"x":0,"y":80,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -74,7 +74,7 @@
 },
 "player_shitty_melee_2.png":
 {
-	"frame": {"x":0,"y":176,"w":32,"h":32},
+	"frame": {"x":32,"y":48,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -82,7 +82,7 @@
 },
 "player_shitty_walk_0.png":
 {
-	"frame": {"x":0,"y":208,"w":32,"h":32},
+	"frame": {"x":0,"y":48,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -90,7 +90,7 @@
 },
 "player_shitty_walk_1.png":
 {
-	"frame": {"x":0,"y":240,"w":32,"h":32},
+	"frame": {"x":32,"y":16,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -98,7 +98,7 @@
 },
 "player_shitty_walk_2.png":
 {
-	"frame": {"x":0,"y":272,"w":32,"h":32},
+	"frame": {"x":64,"y":16,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -106,7 +106,7 @@
 },
 "rock_shitty.png":
 {
-	"frame": {"x":0,"y":304,"w":16,"h":16},
+	"frame": {"x":0,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -114,7 +114,7 @@
 },
 "stick_shitty.png":
 {
-	"frame": {"x":16,"y":304,"w":16,"h":16},
+	"frame": {"x":48,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -131,8 +131,8 @@
 	"version": "1.0",
 	"image": "spritesheet.png",
 	"format": "RGBA8888",
-	"size": {"w":32,"h":320},
+	"size": {"w":112,"h":112},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:237451ff8876b92458544ba1ba7e7513:cc81fa413e7098b5be157bd14d4542f5:729adc6043343cfda41c447ce8f464d6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:28d89d1267bc7535013cc4b8fe2a536f:cc81fa413e7098b5be157bd14d4542f5:729adc6043343cfda41c447ce8f464d6$"
 }
 }
