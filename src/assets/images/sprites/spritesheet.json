@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
 	"sourceSize": {"w":16,"h":16}
 },
-"player_shitty_0.png":
+"player_shitty_idle_0.png":
 {
 	"frame": {"x":0,"y":48,"w":32,"h":32},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
 	"sourceSize": {"w":32,"h":32}
 },
-"player_shitty_1.png":
+"player_shitty_idle_1.png":
 {
 	"frame": {"x":0,"y":80,"w":32,"h":32},
 	"rotated": false,
@@ -56,9 +56,33 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
 	"sourceSize": {"w":32,"h":32}
 },
+"player_shitty_walk_0.png":
+{
+	"frame": {"x":0,"y":112,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"player_shitty_walk_1.png":
+{
+	"frame": {"x":0,"y":144,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"player_shitty_walk_2.png":
+{
+	"frame": {"x":0,"y":176,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
 "rock_shitty.png":
 {
-	"frame": {"x":0,"y":112,"w":16,"h":16},
+	"frame": {"x":0,"y":208,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -66,7 +90,7 @@
 },
 "stick_shitty.png":
 {
-	"frame": {"x":16,"y":112,"w":16,"h":16},
+	"frame": {"x":16,"y":208,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -74,15 +98,16 @@
 }},
 "animations": {
 	"heart": ["heart_0.png","heart_1.png","heart_2.png"],
-	"player_shitty": ["player_shitty_0.png","player_shitty_1.png"]
+	"player_shitty_idle": ["player_shitty_idle_0.png","player_shitty_idle_1.png"],
+	"player_shitty_walk": ["player_shitty_walk_0.png","player_shitty_walk_1.png","player_shitty_walk_2.png"]
 },
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "spritesheet.png",
 	"format": "RGBA8888",
-	"size": {"w":32,"h":128},
+	"size": {"w":32,"h":224},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:eba2d46cb2fa7e071384d4567fa197c5:e855bf060896a603d30967b5aa97cfd1:729adc6043343cfda41c447ce8f464d6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:062b8ad8ee01e560d34bc372696ab404:59105a05c553f662e862141a5618e8d8:729adc6043343cfda41c447ce8f464d6$"
 }
 }
