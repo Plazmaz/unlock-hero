@@ -2,19 +2,19 @@
 
 "projectile_rock":
 {
-	"frame": {"x":1,"y":1,"w":8,"h":8},
+	"frame": {"x":1,"y":1,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
-	"sourceSize": {"w":8,"h":8}
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
 }},
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "projectiles.png",
 	"format": "RGBA8888",
-	"size": {"w":10,"h":10},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:a9646a77a4266aa40e7f114e5aeb1439:45817eb0651318710a0203bc784674a4:9b6e6842273e8724f51d1457138f1678$"
+	"size": {"w":18,"h":18},
+	"scale": "2",
+	"smartupdate": "$TexturePacker:SmartUpdate:31e3a28c7063ec0b57846a1a0abe01f3:45817eb0651318710a0203bc784674a4:9b6e6842273e8724f51d1457138f1678$"
 }
 }
