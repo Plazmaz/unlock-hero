@@ -360,6 +360,7 @@ window.addEventListener('resize', () => {
 });
 let pauseOverlay;
 let pauseText;
+let helpText;
 
 function pauseToggle() {
     paused = !paused;
@@ -378,10 +379,14 @@ function pauseToggle() {
         pauseOverlay.width = app.screen.width;
         pauseOverlay.height = app.screen.height;
         app.stage.addChild(pauseOverlay);
-        pauseText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 200, 160, 40),
-            "      Game Paused\n(Press Escape to Unpause)", 42, 0xFFFFFF);
+        pauseText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 175, 160, 40),
+            "Game Paused", 60, 0xFFFFFF);
+		helpText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 100, 160, 40),
+			"(Press Escape to Unpause)", 24, 0xbababa);
         pauseText.sticky = true;
+		helpText.sticky = true;
         pauseText.update(0);
+		helpText.update(0);
         if(music) {
             music.pause();
         }
@@ -389,6 +394,7 @@ function pauseToggle() {
         if(pauseOverlay) {
             app.stage.removeChild(pauseOverlay);
             pauseText.destroy();
+            helpText.destroy();
             if(music) {
                 music.resume();
             }
