@@ -396,12 +396,10 @@ class EnemyBat extends Enemy {
         }
 
         let targY = y - 30;
-        if(this.getY() <= targY - 2) {
-            this.setSpriteDirection(true);
+        if(this.getY() <= targY - 20) {
             this.velY += this.speedY * delta;
             closeEnough = false;
-        } else if(this.getY() > targY + 2) {
-            this.setSpriteDirection(false);
+        } else if(this.getY() > targY + 20) {;
             this.velY -= this.speedY  * delta;
             closeEnough = false;
         }

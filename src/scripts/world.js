@@ -12,7 +12,7 @@ class World {
         this.groundTex = getSingleTextureFromSpritesheet("tiles.json", "ground_shitty");
         this.grassTex = getSingleTextureFromSpritesheet("tiles.json", "ground_shitty");
         // 160 * 32 = 5120.
-        this.spawnGround(-2560, app.renderer.height - 100, 160, 20);
+        this.spawnGround(-2560, app.renderer.height - 100, 160, 60);
 
         // this.spawnPlatform(-250, this.ground.top - 50, 500, 200);
         if (debug) {
@@ -77,9 +77,9 @@ class World {
         let widthMin = 3;
         let widthMax = 5;
         let lastWidth = 0;
-        for (let i = this.ground.left; i < this.ground.right; i += lastWidth * 32) {
+        for (let i = this.ground.left + 192; i < this.ground.right - 192; i += lastWidth * 32) {
             lastWidth = Math.floor(randRange(widthMin, widthMax));
-            if(Math.random() * 100 <= 25) {
+            if(Math.random() * 100 <= 40) {
                 let rY = Math.floor(Math.random() * 4);
                 rY = yMax - (rY * height);
                 this.spawnPlatform(i, rY, lastWidth, 1);

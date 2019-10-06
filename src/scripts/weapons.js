@@ -48,7 +48,7 @@ class Weapon {
 class Stick extends Weapon {
     constructor(app) {
         super(app, "Stick", false, 2, 160, "player_shitty_melee", 120);
-        this.sound = PIXI.loader.resources['assets/sound/sword-hit.wav'].sound;
+        this.sound = PIXI.loader.resources['assets/sound/punch.wav'].sound;
     }
 }
 class Fist extends Weapon {
