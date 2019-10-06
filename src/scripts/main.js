@@ -20,18 +20,17 @@ function init() {
     });
 
     PIXI.loader
-        .add("assets/images/char.png")
-        .add("assets/sound/no_ammo.wav")
-        .add("assets/sound/pickup.wav")
-        .add("assets/sound/sword-hit.wav")
-        .add("assets/sound/punch.wav")
-        .add("assets/sound/rock.wav")
-        .add("assets/sound/unlock.wav")
-        .add("assets/images/sprites/tiles.json")
-        .add("assets/images/sprites/entities.json")
-        .add("assets/images/sprites/projectiles.json")
-        .add("assets/images/sprites/platforms.json")
-        .add("assets/font/PressStart2P-Regular.ttf")
+        .add("src/assets/images/char.png")
+        .add("src/assets/sound/no_ammo.wav")
+        .add("src/assets/sound/pickup.wav")
+        .add("src/assets/sound/sword-hit.wav")
+        .add("src/assets/sound/punch.wav")
+        .add("src/assets/sound/rock.wav")
+        .add("src/assets/sound/unlock.wav")
+        .add("src/assets/images/sprites/tiles.json")
+        .add("src/assets/images/sprites/entities.json")
+        .add("src/assets/images/sprites/projectiles.json")
+        .add("src/assets/images/sprites/platforms.json")
         .load(loadFinished);
 
     document.body.appendChild(app.view);
