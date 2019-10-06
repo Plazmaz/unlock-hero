@@ -23,9 +23,6 @@ class UIElement {
         } else {
             this.element = sprites;
         }
-        this.element.calculateBounds();
-        this.bounds.width = this.element.getBounds().width;
-        this.bounds.height = this.element.getBounds().height;
 
         this.app.stage.addChild(this.element);
         this.set = true;
@@ -192,6 +189,9 @@ class HealthBar extends UIElement {
             sprites.push(sprite);
         }
         this.setSprites(sprites);
+        this.element.calculateBounds();
+        this.bounds.width = this.element.getBounds().width;
+        this.bounds.height = this.element.getBounds().height;
     }
     update(delta) {
         super.update(delta);
