@@ -54,9 +54,15 @@ function stepTowards(val, target, step) {
     return val;
 }
 
-let enemySpawnInterval = 10 * 1000;
-let enemySpawnCount = 5;
-let lastEnemySpawnTime = 0;
+let slimeSpawnInterval = 10 * 1000;
+let slimeSpawnCount = 4;
+let lastSlimeSpawnTime = 0;
+
+let batSpawnInterval = 60 * 1000;
+let batSpawnCount = 1;
+let lastBatSpawnTime = performance.now();
+let spawnBats = false;
+
 let world;
 let noAmmoSound;
 let unlockAnnouncer;
@@ -66,9 +72,14 @@ let hb;
 
 function runUpdate(delta) {
     let now = performance.now();
-        if (now - lastEnemySpawnTime >= enemySpawnInterval) {
-        world.spawnEnemies(enemySpawnCount);
-        lastEnemySpawnTime = now;
+    if (now - lastSlimeSpawnTime >= slimeSpawnInterval) {
+        world.spawnEnemies(slimeSpawnCount, "slime");
+        lastSlimeSpawnTime = now;
+    }
+
+    if (spawnBats && now - lastBatSpawnTime >= batSpawnInterval) {
+        world.spawnEnemies(batSpawnCount, "bat");
+        lastBatSpawnTime = now;
     }
     world.update(delta);
     unlockAnnouncer.update(delta);
@@ -110,7 +121,6 @@ function performUnlocks(killCount) {
             break;
         case 10:
             unlockAnnouncer.setUnlocked("Health HUD");
-
             hb.setAlpha(1);
             break;
         case 15:
@@ -146,9 +156,17 @@ function performUnlocks(killCount) {
             unlockAnnouncer.setUnlocked("Lots of rocks");
             world.spawnRocks = true;
             break;
+        case 70:
+            unlockAnnouncer.setUnlocked("Gone Batty");
+            spawnBats = true;
+            break;
         case 80:
             unlockAnnouncer.setUnlocked("More Slimes");
-            enemySpawnInterval /= 2;
+            slimeSpawnInterval /= 2;
+            break;
+        case 100:
+            unlockAnnouncer.setUnlocked("More Bats");
+            batSpawnInterval /= 2;
             break;
         case 120:
             unlockAnnouncer.setUnlocked("INFINITE ROCKS");
@@ -157,7 +175,7 @@ function performUnlocks(killCount) {
             break;
         case 135:
             unlockAnnouncer.setUnlocked("Even More Slimes");
-            enemySpawnInterval = 3 * 1000;
+            slimeSpawnInterval = 3 * 1000;
             break;
         case 150:
             unlockAnnouncer.setUnlocked("Regen (Phew)");
@@ -165,7 +183,7 @@ function performUnlocks(killCount) {
             break;
         case 165:
             unlockAnnouncer.setUnlocked("Slimeaggedon");
-            enemySpawnCount += 3;
+            slimeSpawnCount += 3;
             break;
         case 170:
             unlockAnnouncer.setUnlocked("Stick sharpening (hurts more)");
@@ -177,7 +195,7 @@ function performUnlocks(killCount) {
             break;
         case 210:
             unlockAnnouncer.setUnlocked("Slimepocalypse");
-            enemySpawnCount += 3;
+            slimeSpawnCount += 3;
             break
         // case 3:
         //     app.renderer.backgroundColor = 0x60959a;

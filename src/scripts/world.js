@@ -99,10 +99,30 @@ class World {
         this.entities.push(enemy);
     }
 
-    spawnEnemies(count) {
+    spawnBat(x, y) {
+        let hb = new HealthBar(app, new PIXI.Rectangle(0, 0, 500, 80), 0, 0, false);
+        if(this.entityHBUnlocked) {
+            hb.targetAlpha = 1;
+            hb.setAlphaImmediate(1);
+        }
+
+        let enemy = new EnemyBat(this.app, hb);
+        enemy.setX(x);
+        enemy.setY(y);
+        this.entities.push(enemy);
+    }
+
+    spawnEnemies(count, type) {
         for (let i = 0; i < count; i++) {
             let x = randRange(this.ground.left, this.ground.right);
-            this.spawnSlime(x, 0)
+            switch(type) {
+                case "bat":
+                    this.spawnBat(x, 0);
+                    break;
+                case "slime":
+                    this.spawnSlime(x, 0);
+                    break;
+            }
         }
     }
 

@@ -99,11 +99,11 @@ class Entity {
         let closeEnough = true;
         if(this.getX() <= x - stopDist) {
             this.setSpriteDirection(true);
-            this.velX += this.speedX;
+            this.velX += this.speedX * delta;
             closeEnough = false;
         } else if(this.getX() > x + stopDist) {
             this.setSpriteDirection(false);
-            this.velX -= this.speedX;
+            this.velX -= this.speedX * delta;
             closeEnough = false;
         }
         // As we get closer, we jump if we can and we're below our target
@@ -241,7 +241,7 @@ class Living extends Entity {
             entity.applyForce(entity.getX() - this.getX(), -2, knockbackAmount || 20);
         });
 
-        this.lastAttack = curAttackTime
+        this.lastAttack = curAttackTime;
         return entities.length > 0;
     }
 
@@ -332,8 +332,8 @@ class Player extends Living {
 
 class Enemy extends Living {
     WALK_ANIM = "slime_walk";
-    constructor(app, hb, maxHealth, damageDealt) {
-        super(app, hb, getSingleFromSpritesheet("entities.json", "slime_idle_0"), "entities.json", maxHealth, damageDealt);
+    constructor(app, hb, sprite, maxHealth, damageDealt) {
+        super(app, hb, sprite, "entities.json", maxHealth, damageDealt);
         super.speedX = 0.5;
         super.maxVelX = 5;
         super.maxVelY = 6;
@@ -341,19 +341,16 @@ class Enemy extends Living {
         this.type = this.TYPE_ENEMY;
     }
     update(delta, world) {
-        let done = this.walkTowards(world.player.getX(), world.player.getY(), 20, true, delta);
-        if(done) {
-            this.attack(world.player, this.damageDealt);
-        }
         super.update(delta, world);
         this.healthBar.bounds.x = this.sprite.position.x - (this.sprite.width / 2);
         this.healthBar.bounds.y = this.sprite.position.y - this.sprite.height - 20;
     }
 }
+
 class EnemySlime extends Enemy {
     WALK_ANIM = "slime_walk";
     constructor(app, hb) {
-        super(app, hb, 4, 1);
+        super(app, hb, getSingleFromSpritesheet("entities.json", "slime_idle_0"), 4, 1);
         super.speedX = 0.2;
         super.speedY = 5;
         this.idleAnim = "slime_idle";
@@ -365,8 +362,86 @@ class EnemySlime extends Enemy {
         if(this.onGround) {
             this.velX = 0;
         }
+        let done = this.walkTowards(world.player.getX(), world.player.getY(), 20, true, delta);
+        if(done) {
+            this.attack(world.player, this.damageDealt);
+        }
         let walking = this.playAnimForCondition(this.WALK_ANIM, 0.2, Math.abs(this.velX) > this.drag || !this.onGround);
         this.playAnimForCondition(this.idleAnim, 0.05, !walking);
+        super.update(delta, world);
+    }
+}
+
+class EnemyBat extends Enemy {
+    WALK_ANIM = "bat_fly";
+    constructor(app, hb) {
+        super(app, hb, getSingleFromSpritesheet("entities.json", "bat_fly_0"), 4, 1);
+        super.speedX = 4;
+        super.speedY = 4;
+        this.gravity = 0;
+        this.idleAnim = "bat_fly";
+        this.lastBehaviorStateChange = 0;
+        this.targetPlayer = true;
+    }
+    walkTowards(x, y, stopDist, canJump, delta) {
+        let closeEnough = true;
+        if(this.getX() <= x - stopDist) {
+            this.setSpriteDirection(true);
+            this.velX += this.speedX * delta;
+            closeEnough = false;
+        } else if(this.getX() > x + stopDist) {
+            this.setSpriteDirection(false);
+            this.velX -= this.speedX * delta;
+            closeEnough = false;
+        }
+
+        let targY = y - 30;
+        if(this.getY() <= targY - 2) {
+            this.setSpriteDirection(true);
+            this.velY += this.speedY * delta;
+            closeEnough = false;
+        } else if(this.getY() > targY + 2) {
+            this.setSpriteDirection(false);
+            this.velY -= this.speedY  * delta;
+            closeEnough = false;
+        }
+        return closeEnough;
+    }
+    update(delta, world) {
+        // let now = performance.now();
+        // if(now - lastBehaviorStateChange >= 10 * 1000 && Math.random() * 100 <= 30) {
+        //     this.lastBehaviorStateChange = now;
+        //     this.targetPlayer = !this.targetPlayer;
+        // }
+        let stopDist;
+        if(this.targetPlayer) {
+            this.targetX = world.player.getX();
+            this.targetY = world.player.getY();
+            this.speedX = 4;
+            this.speedY = 4;
+            this.maxVelX = 8;
+            this.maxVelY = 8;
+            stopDist = 200;
+        } else {
+
+            this.targetX = randRange(80, app.screen.width - 80);
+            this.targetY = 400;
+            this.speedX = 10;
+            this.speedY = 10;
+            this.maxVelX = 10;
+            this.maxVelY = 10;
+            stopDist = 20;
+        }
+
+        let done = this.walkTowards(this.targetX, this.targetY, stopDist, true, delta);
+        if(done) {
+            this.targetPlayer = !this.targetPlayer;
+            if(this.targetPlayer) {
+                this.attack(world.player, this.damageDealt);
+            }
+        }
+        let walking = this.playAnimForCondition(this.WALK_ANIM, 0.1, true);
+        // this.playAnimForCondition(this.idleAnim, 0.05, !walking);
         super.update(delta, world);
     }
 }
