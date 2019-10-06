@@ -59,8 +59,8 @@ function stepTowards(val, target, step) {
 
 let musicCycle = [
     "assets/music/cold-funk.mp3",
-    "assets/music/district-four.mp3",
-    "assets/music/just-nasty.mp3"
+    "assets/music/just-nasty.mp3",
+    "assets/music/district-four.mp3"
 ];
 let currentSong = 0;
 let slimeSpawnInterval = 10 * 1000;
@@ -209,13 +209,13 @@ function loadFinished() {
 }
 let music;
 function nextSong() {
-    currentSong++;
     if(currentSong > musicCycle.length) {
         currentSong = 0;
     }
     music = PIXI.loader.resources[musicCycle[currentSong]].sound;
     let sound = music.play();
     sound.volume = 0.15;
+    currentSong++;
     sound.on('end', () => {
         nextSong();
     })
