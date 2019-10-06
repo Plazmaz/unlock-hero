@@ -1,6 +1,7 @@
 class World {
     player = null;
     entityHBUnlocked = false;
+    slimesAreColored = false;
     spawnRocks = false;
     platforms = [];
     entities = [];
@@ -83,7 +84,7 @@ class World {
         for (let y = 0; y < layers; y++) {
             for (let x = this.ground.left + 192; x < this.ground.right - 192; x += lastWidth * 32) {
                 lastWidth = Math.floor(randRange(widthMin, widthMax));
-                if(Math.random() * 100 <= 30) {
+                if(Math.random() * 100 <= 10) {
                     let rY = Math.floor(Math.random() * 4);
                     rY = rY * y;
                     rY = yMax - (rY * height);
@@ -98,8 +99,12 @@ class World {
             hb.targetAlpha = 1;
             hb.setAlphaImmediate(1);
         }
-
-        let enemy = new EnemySlime(this.app, this, hb);
+        let enemy;
+        if(this.slimesAreColored) {
+            enemy = new EnemyColoredSlime(this.app, this, hb);
+        } else {
+            enemy = new EnemySlime(this.app, this, hb);
+        }
         enemy.maxHealth += this.slimeBaseHealthMod;
         enemy.health += this.slimeBaseHealthMod;
         enemy.healthBar.setHealth(enemy.health, enemy.maxHealth);

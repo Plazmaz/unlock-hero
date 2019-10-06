@@ -1,4 +1,4 @@
-ENTITY_ID = 0;
+let ENTITY_ID = 0;
 class Entity {
     drag = 0.28;
     gravity = 0.198;
@@ -342,7 +342,7 @@ class Player extends Living {
 }
 
 class Enemy extends Living {
-    walkAnim = "slime_shitty_walk";
+    walkAnim = "";
     constructor(app, world, hb, sprite, maxHealth, damageDealt) {
         super(app, world, hb, sprite, "entities.json", maxHealth, damageDealt);
         super.speedX = 0.5;
@@ -359,12 +359,36 @@ class Enemy extends Living {
 }
 
 class EnemySlime extends Enemy {
-    walkAnim = "slime_shitty_walk";
     constructor(app, world, hb) {
         super(app,world, hb, getSingleFromSpritesheet("entities.json", "slime_shitty_idle_0"), 4, 1);
         super.speedX = 0.2;
         super.speedY = 5;
         this.idleAnim = "slime_shitty_idle";
+        this.walkAnim = "slime_shitty_walk";
+    }
+    update(delta, world) {
+        if(Math.random() * 100 <= 30) {
+            this.jump(delta)
+        }
+        if(this.onGround) {
+            this.velX = 0;
+        }
+        let done = this.walkTowards(world.player.getX(), world.player.getY(), 20, true, delta);
+        if(done) {
+            this.attack(world.player, this.damageDealt);
+        }
+        let walking = this.playAnimForCondition(this.walkAnim, 0.2, Math.abs(this.velX) > this.drag || !this.onGround);
+        this.playAnimForCondition(this.idleAnim, 0.05, !walking);
+        super.update(delta, world);
+    }
+}
+
+
+class EnemyColoredSlime extends Enemy {
+    constructor(app, world, hb) {
+        super(app,world, hb, getSingleFromSpritesheet("entities.json", "slime_idle_0"), 4, 1);
+        super.idleAnim = "slime_idle";
+        super.walkAnim = "slime_idle";
     }
     update(delta, world) {
         if(Math.random() * 100 <= 30) {

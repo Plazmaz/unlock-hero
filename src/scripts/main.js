@@ -105,6 +105,9 @@ function runUpdate(delta) {
     unlockAnnouncer.update(delta);
     killCounter.update(delta);
     ammoCounter.update(delta);
+    if(world.player.dead) {
+        setGameOver();
+    }
 
 }
 
@@ -136,9 +139,6 @@ function initMainStage() {
             runUpdate(delta)
         }
     });
-    for (let i = 0; i < 200; i++) {
-        performUnlocks(i);
-    }
 }
 function fadeOutBg(lightness, cb) {
     if(lightness <= 0) {
@@ -262,6 +262,7 @@ function performUnlocks(killCount) {
         case 50:
             unlockAnnouncer.setUnlocked("Better sprites");
             world.player.setAnimationNames("player_walk", "player_idle", "player_melee", "player_ranged");
+            world.slimesAreColored = true;
             break;
         case 55:
             unlockAnnouncer.setUnlocked("Ammo counter?");
@@ -325,6 +326,7 @@ function performUnlocks(killCount) {
 }
 window.addEventListener('playerkill', (e) => {
     this.performUnlocks(e.totalKills)
+
 });
 window.addEventListener('resize', () => {
     app.renderer.resize(window.innerWidth, window.innerHeight);
@@ -392,6 +394,43 @@ function pauseToggle() {
             }
         }
     }
+}
+function setGameOver() {
+    paused = true;
+    pauseOverlay = new PIXI.heaven.Sprite(PIXI.Texture.WHITE);
+    pauseOverlay.tint = 0x00000;
+    pauseOverlay.alpha = 0.75;
+    pauseOverlay.anchor.set(0);
+    pauseOverlay.position.x = -app.screen.width / 2;
+    pauseOverlay.position.y = app.screen.height / 2;
+
+    let relX =  app.screen.width / 2;
+    let relY = app.screen.height / 2;
+    pauseOverlay.position.x = app.stage.pivot.x - relX;
+    pauseOverlay.position.y = app.stage.pivot.y - relY;
+    pauseOverlay.width = app.screen.width;
+    pauseOverlay.height = app.screen.height;
+    app.stage.addChild(pauseOverlay);
+    pauseText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 200, 160, 40),
+        "GAME OVER", 72, 0xaa3832);
+    pauseText.sticky = true;
+    pauseText.update(0);
+
+    let finalScore = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 100, 160, 40),
+        "Final Score: " + world.player.killCount, 42, 0xFFFFFF);
+    finalScore.sticky = true;
+    finalScore.update(0);
+
+    if(music) {
+        music.pause();
+    }
+    let backButton = new TextButton(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2, 80, 20), "Return to Menu", 36, 0xFFFFFF, 0x888888);
+    backButton.sticky = true;
+    backButton.update(0);
+    backButton.click = () => {
+        window.location.reload();
+    }
+
 }
 window.addEventListener("keyup", (e) => {
     if (stage === 1 && e.key === "Escape") {
