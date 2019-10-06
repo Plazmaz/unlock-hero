@@ -92,7 +92,7 @@ let stage = 0;
 let gameStage;
 function runUpdate(delta) {
     let now = performance.now();
-    if (now - lastSlimeSpawnTime >= slimeSpawnInterval) {
+    if (now - lastSlimeSpawnTime >= slimeSpawnInterval && world.entities.length <= 50) {
         world.spawnEnemies(slimeSpawnCount, "slime");
         lastSlimeSpawnTime = now;
     }
@@ -315,10 +315,20 @@ function performUnlocks(killCount) {
             unlockAnnouncer.setUnlocked("Rock hard (rocks hit twice before break)");
             world.player.weaponRanged.despawnAfterHits = 2;
             break;
+        case 200:
+            unlockAnnouncer.setUnlocked("<3 proud of you");
+            world.player.maxHealth += 6;
+            world.player.health += 6;
+            world.player.healthBar.setHealth(world.player.health, world.player.maxHealth + 6);
+            break;
         case 210:
             unlockAnnouncer.setUnlocked("Slimepocalypse");
             slimeSpawnCount += 2;
-            break
+            break;
+        case 250:
+            unlockAnnouncer.setUnlocked("Catacalslyme");
+            world.slimeBaseHealthMod += 2;
+            break;
         // case 3:
         //     app.renderer.backgroundColor = 0x60959a;
         //     break;

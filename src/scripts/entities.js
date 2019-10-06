@@ -248,7 +248,9 @@ class Living extends Entity {
 
     update(delta, world) {
         super.update(delta, world);
-        this.healthBar.update(delta);
+        if(this.healthBar) {
+            this.healthBar.update(delta);
+        }
         if(this.regenDelay !== -1 && this.health !== this.maxHealth) {
             let now = performance.now();
             if(now - this.lastRegen >= this.regenDelay && now - this.lastDamaged >= this.regenDelay) {
@@ -353,7 +355,7 @@ class Enemy extends Living {
     }
     update(delta, world) {
         super.update(delta, world);
-        this.healthBar.bounds.x = this.sprite.position.x - (this.sprite.width / 2);
+        this.healthBar.bounds.x = this.sprite.position.x - (this.sprite.width / 4) - (this.healthBar.bounds.width / 2);
         this.healthBar.bounds.y = this.sprite.position.y - this.sprite.height - 20;
     }
 }
@@ -430,11 +432,11 @@ class EnemyBat extends Enemy {
             closeEnough = false;
         }
 
-        let targY = y - 30;
+        let targY = y - 10;
         if(this.getY() <= targY - 20) {
             this.velY += this.speedY * delta;
             closeEnough = false;
-        } else if(this.getY() > targY + 20) {;
+        } else if(this.getY() > targY + 20) {
             this.velY -= this.speedY  * delta;
             closeEnough = false;
         }
@@ -454,7 +456,7 @@ class EnemyBat extends Enemy {
             this.speedY = 4;
             this.maxVelX = 8;
             this.maxVelY = 8;
-            stopDist = 200;
+            stopDist = 20;
         } else {
 
             this.targetX = randRange(80, app.screen.width - 80);
@@ -467,13 +469,15 @@ class EnemyBat extends Enemy {
         }
 
         let done = this.walkTowards(this.targetX, this.targetY, stopDist, true, delta);
+        let attackAnimPlaying = false;
         if(done) {
-            this.targetPlayer = !this.targetPlayer;
             if(this.targetPlayer) {
                 this.attack(world.player, this.damageDealt);
+                attackAnimPlaying = this.playAnimForCondition("bat_attack", 0.25, true);
             }
+            this.targetPlayer = !this.targetPlayer;
         }
-        let walking = this.playAnimForCondition(this.walkAnim, 0.1, true);
+        let walking = this.playAnimForCondition(this.walkAnim, 0.1, !attackAnimPlaying);
         // this.playAnimForCondition(this.idleAnim, 0.05, !walking);
         super.update(delta, world);
     }
