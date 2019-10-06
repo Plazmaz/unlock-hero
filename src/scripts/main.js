@@ -100,7 +100,6 @@ function loadFinished() {
     app.ticker.add((delta) => {
         runUpdate(delta)
     });
-
     // app.stage.addChild(getSprite("char.png"))
 }
 
