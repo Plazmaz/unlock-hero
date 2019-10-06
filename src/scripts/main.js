@@ -178,8 +178,8 @@ function initMainMenuStage() {
 function initCreditsStage() {
     stage = 2;
     let unit = app.screen.height / 20;
-    titleText = new TextDisplay(app, new PIXI.Rectangle(0, -4 * unit, 160, 40), "Credits", 42, 0xFFFFFF);
-    playButton = new TextButton(app, new PIXI.Rectangle(0, -3 * unit, 80, 20), "Go Back", 36, 0x46a152, 0x7ac483);
+    titleText = new TextDisplay(app, new PIXI.Rectangle(0, -9 * unit, 160, 40), "Credits", 60, 0xFFFFFF);
+    playButton = new TextButton(app, new PIXI.Rectangle(0, -8 * unit, 80, 20), "Go Back", 24, 0x46a152, 0x7ac483);
     playButton.click = () => {
         destroyCreditsStage();
         initMainMenuStage();
