@@ -44,7 +44,7 @@ class Entity {
         return bump.hitTestRectangle(this.sprite, boxB)
     }
     doCollideWith(boxB) {
-        return bump.rectangleCollision(this.sprite, boxB, false);
+        return bump.rectangleCollision(this.sprite, boxB, true);
     }
     update(delta, world) {
         this.velX = clamp(this.velX, -this.maxVelX, this.maxVelX);
@@ -55,7 +55,10 @@ class Entity {
         world.platforms.forEach((platform) => {
             if(this.collidesWith(platform)) {
                 let collision = this.doCollideWith(platform);
-                this.onGround = this.onGround || collision === "bottom";
+                if(collision === "bottom") {
+                    this.onGround = true;
+                    this.velY = clamp(this.velY, -this.maxVelY, 0);
+                }
             }
 
         });
@@ -198,6 +201,8 @@ class Living extends Entity {
         // Cooldown for getting attacked
         this.lastDamaged = 0;
         this.damageCooldownSec = 0.3;
+        this.regenDelay = -1;
+        this.lastRegen = 0;
     }
 
     takeDamage(amount) {
@@ -223,7 +228,7 @@ class Living extends Entity {
         let curAttackTime = performance.now();
         if(!ignoreCooldown) {
             if ((curAttackTime - this.lastAttack) / 1000 < this.attackCooldownSec) {
-                return;
+                return false;
             }
         }
         entities.forEach(entity => {
@@ -237,6 +242,7 @@ class Living extends Entity {
         });
 
         this.lastAttack = curAttackTime
+        return entities.length > 0;
     }
 
     onKill(entityKilled) {}
@@ -244,6 +250,16 @@ class Living extends Entity {
     update(delta, world) {
         super.update(delta, world);
         this.healthBar.update(delta);
+        if(this.regenDelay !== -1 && this.health !== this.maxHealth) {
+            let now = performance.now();
+            if(now - this.lastRegen >= this.regenDelay && now - this.lastDamaged >= this.regenDelay) {
+                this.health += 1;
+                if(this.healthBar) {
+                    this.healthBar.setHealth(this.health, this.maxHealth);
+                }
+                this.lastRegen = now;
+            }
+        }
     }
     destroy() {
         super.destroy();
@@ -266,6 +282,8 @@ class Player extends Living {
         this.type = this.TYPE_PLAYER;
         this.weaponMelee = new Fist(app, this.world);
         this.weaponRanged = new Rock(app, this.world);
+        // this.maxVelY = 12;
+        this.speedY = 6;
     }
     onKill(entityKilled) {
         let event = new CustomEvent('playerkill');
@@ -354,9 +372,13 @@ class EnemySlime extends Enemy {
 }
 
 class PickupItem extends Entity {
+    pickupSound;
     constructor(app, sprite, spritesheet, player) {
         super(app, sprite, spritesheet);
         this.player = player;
+        if(!this.pickupSound) {
+            this.pickupSound = PIXI.loader.resources['assets/sound/pickup.wav'].sound;
+        }
     }
     onCollision(withEntity) {
         if(withEntity.id !== this.player.id) {
@@ -365,7 +387,9 @@ class PickupItem extends Entity {
         this.onPickup(withEntity);
         super.onCollision(withEntity);
     }
-    onPickup(player) {}
+    onPickup(player) {
+        this.pickupSound.play()
+    }
 }
 class AmmoPickup extends PickupItem {
     constructor(app, sprite, spritesheet, player, forWeaponType) {
@@ -373,6 +397,7 @@ class AmmoPickup extends PickupItem {
         this.forWeaponType = forWeaponType;
     }
     onPickup(player) {
+        super.onPickup(player);
         if(player.weaponRanged instanceof this.forWeaponType) {
             player.weaponRanged.ammo += 1;
             this.kill();
@@ -406,7 +431,8 @@ class ProjectileRock extends Projectile {
     constructor(app, weaponRock, launcher, dirVector, speed) {
         super(app, getSingleFromSpritesheet("projectiles.json", "projectile_rock"), "projectiles.json", dirVector, speed);
         this.weaponRock = weaponRock;
-        this.launcher = launcher
+        this.launcher = launcher;
+        this.hits = 0;
     }
     update(delta, world) {
         super.update(delta, world);
@@ -421,9 +447,15 @@ class ProjectileRock extends Projectile {
             return;
         }
         if(withEntity instanceof Living) {
-            this.launcher.attack(withEntity, this.weaponRock.damageDealt, this.weaponRock.knockback, true);
-            withEntity.takeDamage(this.weaponRock.damage);
-            this.kill();
+            this.weaponRock.sound.play();
+            let success = this.launcher.attack(withEntity, this.weaponRock.damageDealt, this.weaponRock.knockback, true);
+            // withEntity.takeDamage(this.weaponRock.damage);
+            if(success) {
+                this.hits += 1;
+                if (this.hits >= this.weaponRock.despawnAfterHits) {
+                    this.kill();
+                }
+            }
         }
     }
 }

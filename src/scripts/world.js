@@ -6,16 +6,15 @@ class World {
     entities = [];
 
     constructor(app, debug) {
-        this.groundTex = getSingleTextureFromSpritesheet("tiles.json", "ground_shitty");
-        this.ground = new PIXI.Rectangle(-2500, app.renderer.height - 100, 5000, 500);
-        this.groundSprite = new PIXI.TilingSprite(this.groundTex, this.ground.width, this.ground.height);
-        this.groundSprite.position.x = this.ground.x;
-        this.groundSprite.position.y = this.ground.y;
-        this.groundSprite.anchor.set(0);
+        // this.groundTex = getSingleTextureFromSpritesheet("tiles.json", "ground_dirt");
+        // this.grassTex = getSingleTextureFromSpritesheet("tiles.json", "ground_center");
 
-        app.stage.addChild(this.groundSprite);
-        this.platforms.push(this.groundSprite);
-        this.spawnPlatform(-250, this.ground.top - 50, 500, 200);
+        this.groundTex = getSingleTextureFromSpritesheet("tiles.json", "ground_shitty");
+        this.grassTex = getSingleTextureFromSpritesheet("tiles.json", "ground_shitty");
+        // 160 * 32 = 5120.
+        this.spawnGround(-2560, app.renderer.height - 100, 160, 20);
+
+        // this.spawnPlatform(-250, this.ground.top - 50, 500, 200);
         if (debug) {
             this.debugGraphics = new PIXI.Graphics();
             this.debugDraw();
@@ -24,17 +23,70 @@ class World {
         this.app = app;
     }
 
-    spawnPlatform(x, y, width, height) {
-        let rect = new PIXI.Rectangle(x, y, width, height);
-        let platformSprite = new PIXI.TilingSprite(this.groundTex, rect.width, rect.height);
+    beautifyGround() {
+        this.groundTex = getSingleTextureFromSpritesheet("tiles.json", "ground_dirt");
+        this.grassTex = getSingleTextureFromSpritesheet("tiles.json", "ground_center");
+        this.groundSprite.texture = this.groundTex;
+        this.grassSprite.texture = this.grassTex;
+    }
+
+    spawnGround(x, y, width, height) {
+        this.ground = new PIXI.Rectangle(x, y + 32, width * 32, height * 32);
+
+        this.groundSprite = new PIXI.TilingSprite(this.groundTex, this.ground.width, this.ground.height);
+        this.grassSprite = new PIXI.TilingSprite(this.grassTex, this.ground.width, 32);
+        this.grassSprite.position.x = x;
+        this.grassSprite.position.y = y;
+        this.grassSprite.anchor.set(0);
+
+        this.groundSprite.position.x = this.ground.x;
+        this.groundSprite.position.y = this.ground.y;
+        this.groundSprite.anchor.set(0);
+        app.stage.addChild(this.groundSprite);
+        this.platforms.push(this.groundSprite);
+        app.stage.addChild(this.grassSprite);
+        this.platforms.push(this.grassSprite);
+
+    }
+
+    spawnPlatform(x, y, width) {
+        let platformSprite;
+        switch(width) {
+            case 3:
+                platformSprite = getSingleFromSpritesheet("platforms.json", "platform_3w");
+                break;
+            case 4:
+                platformSprite = getSingleFromSpritesheet("platforms.json", "platform_4w");
+                break;
+            case 5:
+                platformSprite = getSingleFromSpritesheet("platforms.json", "platform_5w");
+                break;
+            default:
+                platformSprite = this.groundSprite;
+                break;
+        }
         platformSprite.position.x = x;
         platformSprite.position.y = y;
         platformSprite.anchor.set(0);
         app.stage.addChild(platformSprite);
         this.platforms.push(platformSprite);
     }
-
-    spawnEnemy(x, y) {
+    spawnPlatforms() {
+        let height = 32;
+        let yMax = this.ground.top - (height * 5);
+        let widthMin = 3;
+        let widthMax = 5;
+        let lastWidth = 0;
+        for (let i = this.ground.left; i < this.ground.right; i += lastWidth * 32) {
+            lastWidth = Math.floor(randRange(widthMin, widthMax));
+            if(Math.random() * 100 <= 25) {
+                let rY = Math.floor(Math.random() * 4);
+                rY = yMax - (rY * height);
+                this.spawnPlatform(i, rY, lastWidth, 1);
+            }
+        }
+    }
+    spawnSlime(x, y) {
         let hb = new HealthBar(app, new PIXI.Rectangle(0, 0, 500, 80), 0, 0, false);
         if(this.entityHBUnlocked) {
             hb.targetAlpha = 1;
@@ -50,7 +102,7 @@ class World {
     spawnEnemies(count) {
         for (let i = 0; i < count; i++) {
             let x = randRange(this.ground.left, this.ground.right);
-            this.spawnEnemy(x, 0)
+            this.spawnSlime(x, 0)
         }
     }
 

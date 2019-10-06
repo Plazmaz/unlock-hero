@@ -51,10 +51,40 @@ class UIElement {
         this.targetAlpha = alpha;
     }
 }
+class UnlockAnnouncer extends UIElement {
+    constructor(app, bounds) {
+        super(app, bounds, [], true);
+        this.text = new PIXI.Text("Unlocked: Nothing!", {fontFamily: 'Press Start 2P', fontSize: 36, fill: 0xFFFFFF, align: 'center'});
+        this.text.anchor.set(0.5);
+        this.setSprites(this.text);
+        this.setAlphaImmediate(0);
+        this.visibleStartTime = 0;
+        this.sound = PIXI.loader.resources['assets/sound/unlock.wav'].sound;
+    }
+
+    update(delta) {
+        super.update(delta);
+        if(this.targetAlpha !== 0 && performance.now() - this.visibleStartTime > 3 * 1000) {
+            this.setAlpha(0);
+        }
+    }
+    setUnlocked(amount) {
+        this.text.text = `Unlocked: ${amount}!`;
+        this.visibleStartTime = performance.now();
+        this.setAlpha(1);
+        this.sound.play();
+    }
+
+    setAlphaImmediate(alpha) {
+        super.setAlphaImmediate(alpha);
+        this.text.alpha = alpha
+    }
+
+}
 class AmmoCounter extends UIElement {
     constructor(app, bounds, player) {
         super(app, bounds, [], true);
-        this.text = new PIXI.Text("Ammo: 0", {fontSize: 36, fill: 0xFFFFFF, align: 'center'});
+        this.text = new PIXI.Text("Ammo: 0", {fontFamily: 'Press Start 2P', fontSize: 24, fill: 0xFFFFFF});
         this.setSprites(this.text);
         this.player = player;
         this.setAlphaImmediate(0)
@@ -77,7 +107,7 @@ class AmmoCounter extends UIElement {
 class KillCounter extends UIElement {
     constructor(app, bounds, trackLiving) {
         super(app, bounds, [], true);
-        this.text = new PIXI.Text("Kills: 0", {fontSize: 36, fill: 0xFFFFFF, align: 'center'});
+        this.text = new PIXI.Text("Kills: 0", {fontFamily: 'Press Start 2P', fontSize: 24, fill: 0xFFFFFF});
         this.setSprites(this.text);
         this.trackLiving = trackLiving;
         this.setAlphaImmediate(0)

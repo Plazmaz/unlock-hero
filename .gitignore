@@ -1,9 +1,5 @@
 *
 !.gitignore
 !src
-!src/*
-!src/
+!src/**
 !*.md
-!*.json
-!*.png
-!*.wav
