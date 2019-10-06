@@ -27,9 +27,13 @@ function init() {
         .add("assets/sound/punch.wav")
         .add("assets/sound/rock.wav")
         .add("assets/sound/unlock.wav")
+        .add("assets/music/cold-funk.mp3")
+        .add("assets/music/district-four.mp3")
+        .add("assets/music/just-nasty.mp3")
         .add("assets/images/sprites/tiles.json")
         .add("assets/images/sprites/entities.json")
         .add("assets/images/sprites/projectiles.json")
+        .add("assets/images/sprites/platforms.json")
         .add("assets/credits.txt")
         .load(loadFinished);
 
@@ -53,6 +57,12 @@ function stepTowards(val, target, step) {
     return val;
 }
 
+let musicCycle = [
+    "assets/music/cold-funk.mp3",
+    "assets/music/district-four.mp3",
+    "assets/music/just-nasty.mp3"
+];
+let currentSong = 0;
 let slimeSpawnInterval = 10 * 1000;
 let slimeSpawnCount = 4;
 let lastSlimeSpawnTime = 0;
@@ -188,11 +198,22 @@ function loadFinished() {
     noAmmoSound = PIXI.loader.resources['assets/sound/no_ammo.wav'].sound;
     initMainMenuStage();
     // initMainStage();
-
-    // for (let i = 0; i < 200; i++) {
-    //     performUnlocks(i);
-    // }
     // app.stage.addChild(getSprite("char.png"))
+}
+function nextSong() {
+    currentSong++;
+    if(currentSong > musicCycle.length) {
+        currentSong = 0;
+    }
+    let sound = PIXI.loader.resources[musicCycle[currentSong]].sound.play();
+    sound.volume = 0.15;
+    sound.on('end', () => {
+        nextSong();
+    })
+
+}
+function startMusicPlay() {
+    nextSong();
 }
 
 function performUnlocks(killCount) {
@@ -207,6 +228,10 @@ function performUnlocks(killCount) {
         case 15:
             unlockAnnouncer.setUnlocked("Blue Skies");
             app.renderer.backgroundColor = 0x60959a;
+            break;
+        case 20:
+            unlockAnnouncer.setUnlocked("Jamming");
+            startMusicPlay();
             break;
         case 25:
             unlockAnnouncer.setUnlocked("A Big Stick");
@@ -226,22 +251,26 @@ function performUnlocks(killCount) {
             world.beautifyGround();
             break;
         case 50:
-            unlockAnnouncer.setUnlocked("Platforms for platforming");
-            world.spawnPlatforms();
+            unlockAnnouncer.setUnlocked("Better sprites");
+            world.player.setAnimationNames("player_walk", "player_idle", "player_melee", "player_ranged");
             break;
         case 55:
             unlockAnnouncer.setUnlocked("Ammo counter?");
             ammoCounter.setAlpha(1);
             break;
-        case 60:
+        case 65:
+            unlockAnnouncer.setUnlocked("Platforms for platforming");
+            world.spawnPlatforms();
+            break;
+        case 70:
             unlockAnnouncer.setUnlocked("Lots of rocks");
             world.spawnRocks = true;
             break;
-        case 70:
+        case 80:
             unlockAnnouncer.setUnlocked("Gone Batty");
             spawnBats = true;
             break;
-        case 80:
+        case 90:
             unlockAnnouncer.setUnlocked("More Slimes");
             slimeSpawnInterval /= 2;
             break;
@@ -293,11 +322,13 @@ window.addEventListener('resize', () => {
     app.stage.position.set(app.screen.width / 2, app.screen.height / 2);
     let unit = app.screen.height / 20;
     if(stage === 0) {
-        titleText.bounds = new PIXI.Rectangle(0, -4 * unit, 160, 40);
-        playButton.bounds = new PIXI.Rectangle(app.screen.width / 2, 500, 500, 80);
-        creditsButton.bounds = new PIXI.Rectangle(0, -1 * unit, 80, 20);
-        menuBg.width = app.screen.width;
-        menuBg.height = app.screen.height;
+        if(titleText) {
+            titleText.bounds = new PIXI.Rectangle(0, -4 * unit, 160, 40);
+            playButton.bounds = new PIXI.Rectangle(app.screen.width / 2, 500, 500, 80);
+            creditsButton.bounds = new PIXI.Rectangle(0, -1 * unit, 80, 20);
+            menuBg.width = app.screen.width;
+            menuBg.height = app.screen.height;
+        }
     } else if(stage === 1) {
         unlockAnnouncer.bounds = new PIXI.Rectangle(app.screen.width / 2, 160, 500, 80);
         killCounter.bounds = new PIXI.Rectangle(16, 90, 500, 80);

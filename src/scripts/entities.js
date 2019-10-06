@@ -1,6 +1,5 @@
 ENTITY_ID = 0;
 class Entity {
-    idleAnim = "player_shitty_idle";
     drag = 0.28;
     gravity = 0.198;
     TYPE_PLAYER = 0;
@@ -271,7 +270,10 @@ class Living extends Entity {
 
 
 class Player extends Living {
-    WALK_ANIM = "player_shitty_walk";
+    walkAnim = "player_shitty_walk";
+    meleeAnim = "player_shitty_melee";
+    throwAnim = "player_shitty_ranged";
+    idleAnim = "player_shitty_idle";
     constructor(app, healthBar) {
         super(app, healthBar, getSingleFromSpritesheet("entities.json", "player_shitty_walk_0"), "entities.json", 20, 2);
         this.keyLeft = keyboard("a");
@@ -290,6 +292,15 @@ class Player extends Living {
         event.player = this;
         event.totalKills = this.killCount;
         window.dispatchEvent(event);
+    }
+
+    setAnimationNames(walkAnim, idleAnim, meleeAnim, throwAnim) {
+        this.walkAnim = walkAnim;
+        this.idleAnim = idleAnim;
+        this.meleeAnim = meleeAnim;
+        this.throwAnim = throwAnim;
+        this.weaponMelee.attackAnim = meleeAnim;
+        this.weaponRanged.attackAnim = throwAnim;
     }
 
     update(delta, world) {
@@ -324,14 +335,14 @@ class Player extends Living {
             super.update(delta, world);
             return;
         }
-        let walking = this.playAnimForCondition(this.WALK_ANIM, 0.2, Math.abs(this.velX) > this.drag && this.onGround);
+        let walking = this.playAnimForCondition(this.walkAnim, 0.2, Math.abs(this.velX) > this.drag && this.onGround);
         this.playAnimForCondition(this.idleAnim, 0.05, !walking);
         super.update(delta, world);
     }
 }
 
 class Enemy extends Living {
-    WALK_ANIM = "slime_walk";
+    walkAnim = "slime_shitty_walk";
     constructor(app, hb, sprite, maxHealth, damageDealt) {
         super(app, hb, sprite, "entities.json", maxHealth, damageDealt);
         super.speedX = 0.5;
@@ -348,12 +359,12 @@ class Enemy extends Living {
 }
 
 class EnemySlime extends Enemy {
-    WALK_ANIM = "slime_walk";
+    walkAnim = "slime_shitty_walk";
     constructor(app, hb) {
-        super(app, hb, getSingleFromSpritesheet("entities.json", "slime_idle_0"), 4, 1);
+        super(app, hb, getSingleFromSpritesheet("entities.json", "slime_shitty_idle_0"), 4, 1);
         super.speedX = 0.2;
         super.speedY = 5;
-        this.idleAnim = "slime_idle";
+        this.idleAnim = "slime_shitty_idle";
     }
     update(delta, world) {
         if(Math.random() * 100 <= 30) {
@@ -366,14 +377,14 @@ class EnemySlime extends Enemy {
         if(done) {
             this.attack(world.player, this.damageDealt);
         }
-        let walking = this.playAnimForCondition(this.WALK_ANIM, 0.2, Math.abs(this.velX) > this.drag || !this.onGround);
+        let walking = this.playAnimForCondition(this.walkAnim, 0.2, Math.abs(this.velX) > this.drag || !this.onGround);
         this.playAnimForCondition(this.idleAnim, 0.05, !walking);
         super.update(delta, world);
     }
 }
 
 class EnemyBat extends Enemy {
-    WALK_ANIM = "bat_fly";
+    walkAnim = "bat_fly";
     constructor(app, hb) {
         super(app, hb, getSingleFromSpritesheet("entities.json", "bat_fly_0"), 4, 1);
         super.speedX = 4;
@@ -438,7 +449,7 @@ class EnemyBat extends Enemy {
                 this.attack(world.player, this.damageDealt);
             }
         }
-        let walking = this.playAnimForCondition(this.WALK_ANIM, 0.1, true);
+        let walking = this.playAnimForCondition(this.walkAnim, 0.1, true);
         // this.playAnimForCondition(this.idleAnim, 0.05, !walking);
         super.update(delta, world);
     }

@@ -19,13 +19,13 @@ class Weapon {
             }
             this.ammo -= 1;
         }
+        if(living.sprite.animState && living.sprite.animState.playing) {
+            living.sprite.animState.stop()
+        }
+        living.playAnimation(this.attackAnim, 0.2);
+        living.sprite.animState.loop = false;
+        living.sprite.animState.gotoAndPlay(0);
         if(!this.isProjectile) {
-            if(living.sprite.animState && living.sprite.animState.playing) {
-                living.sprite.animState.stop()
-            }
-            living.playAnimation(this.attackAnim, 0.2);
-            living.sprite.animState.loop = false;
-            living.sprite.animState.gotoAndPlay(0);
             let enemiesToAttack = [];
             living.getNearbyEntities(living.TYPE_ENEMY, this.range).forEach(enemy => {
                 if(Math.abs(enemy.getY() - living.getY()) > this.range) {
@@ -59,7 +59,7 @@ class Fist extends Weapon {
 }
 class Rock extends Weapon {
     constructor(app) {
-        super(app, "Rock", true, 2, 200, "player_shitty_melee", 20);
+        super(app, "Rock", true, 2, 200, "player_shitty_ranged", 20);
         this.consumable = true;
         this.sound = PIXI.loader.resources['assets/sound/rock.wav'].sound;
         this.despawnAfterHits = 0;
@@ -75,6 +75,11 @@ class Rock extends Weapon {
         entity.setX(living.getX());
         entity.setY(living.getY());
         world.entities.push(entity);
+        if(deltaVector.x < 0) {
+            living.setSpriteDirection(false);
+        } else {
+            living.setSpriteDirection(true);
+        }
     }
     useWeapon(living, world) {
         if(this.ammo > 0) {
