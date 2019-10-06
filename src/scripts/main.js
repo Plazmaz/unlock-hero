@@ -349,35 +349,44 @@ window.addEventListener('resize', () => {
 });
 let pauseOverlay;
 let pauseText;
+
+function pauseToggle() {
+    paused = !paused;
+    if(paused) {
+        pauseOverlay = new PIXI.heaven.Sprite(PIXI.Texture.WHITE);
+        pauseOverlay.tint = 0x00000;
+        pauseOverlay.alpha = 0.5;
+        pauseOverlay.anchor.set(0);
+        pauseOverlay.position.x = -app.screen.width / 2;
+        pauseOverlay.position.y = app.screen.height / 2;
+
+        let relX =  app.screen.width / 2;
+        let relY = app.screen.height / 2;
+        pauseOverlay.position.x = app.stage.pivot.x - relX;
+        pauseOverlay.position.y = app.stage.pivot.y - relY;
+        pauseOverlay.width = app.screen.width;
+        pauseOverlay.height = app.screen.height;
+        app.stage.addChild(pauseOverlay);
+        pauseText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 200, 160, 40),
+            "      Game Paused\n(Press Escape to Unpause)", 42, 0xFFFFFF);
+        pauseText.sticky = true;
+        pauseText.update(0)
+    } else {
+        if(pauseOverlay) {
+            app.stage.removeChild(pauseOverlay);
+            pauseText.destroy();
+        }
+    }
+}
 window.addEventListener("keyup", (e) => {
     if (stage === 1 && e.key === "Escape") {
-        paused = !paused;
-        if(paused) {
-            pauseOverlay = new PIXI.heaven.Sprite(PIXI.Texture.WHITE);
-            pauseOverlay.tint = 0x00000;
-            pauseOverlay.alpha = 0.5;
-            pauseOverlay.anchor.set(0);
-            pauseOverlay.position.x = -app.screen.width / 2;
-            pauseOverlay.position.y = app.screen.height / 2;
-
-            let relX =  app.screen.width / 2;
-            let relY = app.screen.height / 2;
-            pauseOverlay.position.x = app.stage.pivot.x - relX;
-            pauseOverlay.position.y = app.stage.pivot.y - relY;
-            pauseOverlay.width = app.screen.width;
-            pauseOverlay.height = app.screen.height;
-            app.stage.addChild(pauseOverlay);
-            pauseText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 200, 160, 40),
-                "      Game Paused\n(Press Escape to Unpause)", 42, 0xFFFFFF);
-            pauseText.sticky = true;
-            pauseText.update(0)
-        } else {
-            if(pauseOverlay) {
-                app.stage.removeChild(pauseOverlay);
-                pauseText.destroy();
-            }
-        }
-
+        pauseToggle();
         e.preventDefault();
     }
 },false);
+
+window.addEventListener("blur", (e) => {
+    if (stage === 1 && !paused) {
+        pauseToggle();
+    }
+});
