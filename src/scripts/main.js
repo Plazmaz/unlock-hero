@@ -422,8 +422,8 @@ function setGameOver() {
     pauseText.sticky = true;
     pauseText.update(0);
     let scoreText = "Final Score: " + world.player.killCount;
-    let storedScore = localStorage.getItem("highScore");
-    if(storedScore !== null && storedScore < world.player.killCount) {
+    let storedScore = localStorage.getItem("highScore") || 0;
+    if(storedScore < world.player.killCount) {
         scoreText += "\nNew High Score: " + world.player.killCount;
         scoreText += "\nYour Previous High Score: " + storedScore;
         localStorage.setItem("highScore", world.player.killCount);
