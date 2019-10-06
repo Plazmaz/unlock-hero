@@ -93,6 +93,7 @@ class UnlockAnnouncer extends UIElement {
         this.setAlphaImmediate(0);
         this.visibleStartTime = 0;
         this.sound = PIXI.loader.resources['assets/sound/unlock.wav'].sound;
+        this.sound.volume = 0.8;
     }
 
     update(delta) {

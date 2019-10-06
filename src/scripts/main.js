@@ -415,16 +415,25 @@ function setGameOver() {
         "GAME OVER", 72, 0xaa3832);
     pauseText.sticky = true;
     pauseText.update(0);
-
+    let scoreText = "Final Score: " + world.player.killCount;
+    let storedScore = localStorage.getItem("highScore");
+    if(storedScore !== null && storedScore < world.player.killCount) {
+        scoreText += "\nNew High Score: " + world.player.killCount;
+        scoreText += "\nYour Previous High Score: " + storedScore;
+        localStorage.setItem("highScore", world.player.killCount);
+    } else {
+        scoreText += "\nYour High Score: " + storedScore;
+    }
     let finalScore = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 100, 160, 40),
-        "Final Score: " + world.player.killCount, 42, 0xFFFFFF);
+        scoreText, 42, 0xFFFFFF);
     finalScore.sticky = true;
     finalScore.update(0);
 
     if(music) {
         music.pause();
     }
-    let backButton = new TextButton(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2, 80, 20), "Return to Menu", 36, 0xFFFFFF, 0x888888);
+    let backButton = new TextButton(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2, 80, 20), "Return to Menu",
+        36, 0x46a152, 0x7ac483);
     backButton.sticky = true;
     backButton.update(0);
     backButton.click = () => {
