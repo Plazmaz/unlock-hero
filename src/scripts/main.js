@@ -89,6 +89,7 @@ let credits;
 // End credits stage
 let paused = false;
 let stage = 0;
+let gameStage;
 function runUpdate(delta) {
     let now = performance.now();
     if (now - lastSlimeSpawnTime >= slimeSpawnInterval) {
@@ -109,10 +110,13 @@ function runUpdate(delta) {
 
 function initMainStage() {
     stage = 1;
-    world = new World(app, false);
+    gameStage = new PIXI.Container();
+    gameStage.pivot.set(0.5);
+    world = new World(app, gameStage, false);
+    app.stage.addChild(world.stage);
     hb = new HealthBar(app, new PIXI.Rectangle(0, 0, 500, 80), 20, 20, true);
 
-    let player = new Player(app, hb);
+    let player = new Player(app, world, hb);
     player.setY(world.ground.top);
     let unlockBounds = new PIXI.Rectangle(app.screen.width / 2, 160, 500, 80);
     unlockAnnouncer = new UnlockAnnouncer(app, unlockBounds, player);
@@ -132,6 +136,9 @@ function initMainStage() {
             runUpdate(delta)
         }
     });
+    for (let i = 0; i < 200; i++) {
+        performUnlocks(i);
+    }
 }
 function fadeOutBg(lightness, cb) {
     if(lightness <= 0) {
@@ -200,12 +207,14 @@ function loadFinished() {
     // initMainStage();
     // app.stage.addChild(getSprite("char.png"))
 }
+let music;
 function nextSong() {
     currentSong++;
     if(currentSong > musicCycle.length) {
         currentSong = 0;
     }
-    let sound = PIXI.loader.resources[musicCycle[currentSong]].sound.play();
+    music = PIXI.loader.resources[musicCycle[currentSong]].sound;
+    let sound = music.play();
     sound.volume = 0.15;
     sound.on('end', () => {
         nextSong();
@@ -370,11 +379,17 @@ function pauseToggle() {
         pauseText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 200, 160, 40),
             "      Game Paused\n(Press Escape to Unpause)", 42, 0xFFFFFF);
         pauseText.sticky = true;
-        pauseText.update(0)
+        pauseText.update(0);
+        if(music) {
+            music.pause();
+        }
     } else {
         if(pauseOverlay) {
             app.stage.removeChild(pauseOverlay);
             pauseText.destroy();
+            if(music) {
+                music.resume();
+            }
         }
     }
 }

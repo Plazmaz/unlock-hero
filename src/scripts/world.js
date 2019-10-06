@@ -6,7 +6,8 @@ class World {
     entities = [];
     slimeBaseHealthMod = 0;
 
-    constructor(app, debug) {
+    constructor(app, stage, debug) {
+        this.stage = stage;
         // this.groundTex = getSingleTextureFromSpritesheet("tiles.json", "ground_dirt");
         // this.grassTex = getSingleTextureFromSpritesheet("tiles.json", "ground_center");
 
@@ -19,7 +20,7 @@ class World {
         if (debug) {
             this.debugGraphics = new PIXI.Graphics();
             this.debugDraw();
-            app.stage.addChild(this.debugGraphics);
+            this.stage.addChild(this.debugGraphics);
         }
         this.app = app;
     }
@@ -43,9 +44,9 @@ class World {
         this.groundSprite.position.x = this.ground.x;
         this.groundSprite.position.y = this.ground.y;
         this.groundSprite.anchor.set(0);
-        app.stage.addChild(this.groundSprite);
+        this.stage.addChild(this.groundSprite);
         this.platforms.push(this.groundSprite);
-        app.stage.addChild(this.grassSprite);
+        this.stage.addChild(this.grassSprite);
         this.platforms.push(this.grassSprite);
 
     }
@@ -69,7 +70,7 @@ class World {
         platformSprite.position.x = x;
         platformSprite.position.y = y;
         platformSprite.anchor.set(0);
-        app.stage.addChild(platformSprite);
+        this.stage.addChild(platformSprite);
         this.platforms.push(platformSprite);
     }
     spawnPlatforms() {
@@ -78,12 +79,16 @@ class World {
         let widthMin = 3;
         let widthMax = 5;
         let lastWidth = 0;
-        for (let i = this.ground.left + 192; i < this.ground.right - 192; i += lastWidth * 32) {
-            lastWidth = Math.floor(randRange(widthMin, widthMax));
-            if(Math.random() * 100 <= 40) {
-                let rY = Math.floor(Math.random() * 4);
-                rY = yMax - (rY * height);
-                this.spawnPlatform(i, rY, lastWidth, 1);
+        let layers = 8;
+        for (let y = 0; y < layers; y++) {
+            for (let x = this.ground.left + 192; x < this.ground.right - 192; x += lastWidth * 32) {
+                lastWidth = Math.floor(randRange(widthMin, widthMax));
+                if(Math.random() * 100 <= 30) {
+                    let rY = Math.floor(Math.random() * 4);
+                    rY = rY * y;
+                    rY = yMax - (rY * height);
+                    this.spawnPlatform(x, rY, lastWidth, 1);
+                }
             }
         }
     }
@@ -94,7 +99,7 @@ class World {
             hb.setAlphaImmediate(1);
         }
 
-        let enemy = new EnemySlime(this.app, hb);
+        let enemy = new EnemySlime(this.app, this, hb);
         enemy.maxHealth += this.slimeBaseHealthMod;
         enemy.health += this.slimeBaseHealthMod;
         enemy.healthBar.setHealth(enemy.health, enemy.maxHealth);
@@ -110,7 +115,7 @@ class World {
             hb.setAlphaImmediate(1);
         }
 
-        let enemy = new EnemyBat(this.app, hb);
+        let enemy = new EnemyBat(this.app, this, hb);
         enemy.setX(x);
         enemy.setY(y);
         this.entities.push(enemy);
@@ -134,7 +139,7 @@ class World {
         for (let i = 0; i < Math.floor(randRange(5, 15)); i++) {
             let x = randRange(this.ground.left, this.ground.right);
             let y = this.ground.top;
-            let ammoPickup = new AmmoPickupRock(this.app, this.player);
+            let ammoPickup = new AmmoPickupRock(this.app, this, this.player);
             ammoPickup.setX(x);
             ammoPickup.setY(y);
             this.entities.push(ammoPickup);
@@ -142,8 +147,8 @@ class World {
     }
 
     update(delta) {
-        app.stage.position.set(app.screen.width / 2, app.screen.height / 2);
-        app.stage.pivot.copy(this.player.sprite.position);
+        this.app.stage.position.set(this.app.screen.width / 2, this.app.screen.height / 2);
+        this.app.stage.pivot.copy(this.player.sprite.position);
         let noRocks = true;
         this.entities.forEach((entity, idx) => {
             this.entities.forEach((entityB) => {

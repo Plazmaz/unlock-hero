@@ -4,9 +4,9 @@ class Entity {
     gravity = 0.198;
     TYPE_PLAYER = 0;
     TYPE_ENEMY = 1;
-    constructor(app, sprite, spritesheet) {
+    constructor(app, world, sprite, spritesheet) {
         this.app = app;
-        this.stage = app.stage;
+        this.stage = world.stage;
         this.sprite = sprite;
         this.id = ENTITY_ID++;
         this.velX = 0;
@@ -23,7 +23,7 @@ class Entity {
         this.type = -1;
         this.rightFacing = true;
         this.dead = false;
-        app.stage.addChild(this.sprite);
+        world.stage.addChild(this.sprite);
     }
 
     setAnimation(name, region, speed) {
@@ -181,8 +181,8 @@ class Entity {
 
 
 class Living extends Entity {
-    constructor(app, healthBar, sprite, spritesheet, maxHealth, damageDealt) {
-        super(app, sprite, spritesheet);
+    constructor(app, world, healthBar, sprite, spritesheet, maxHealth, damageDealt) {
+        super(app, world, sprite, spritesheet);
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         if(healthBar) {
@@ -274,8 +274,8 @@ class Player extends Living {
     meleeAnim = "player_shitty_melee";
     throwAnim = "player_shitty_ranged";
     idleAnim = "player_shitty_idle";
-    constructor(app, healthBar) {
-        super(app, healthBar, getSingleFromSpritesheet("entities.json", "player_shitty_walk_0"), "entities.json", 20, 2);
+    constructor(app, world, healthBar) {
+        super(app, world, healthBar, getSingleFromSpritesheet("entities.json", "player_shitty_walk_0"), "entities.json", 20, 2);
         this.keyLeft = keyboard("a");
         this.keyRight = keyboard("d");
         this.keyJump = keyboard("w");
@@ -343,8 +343,8 @@ class Player extends Living {
 
 class Enemy extends Living {
     walkAnim = "slime_shitty_walk";
-    constructor(app, hb, sprite, maxHealth, damageDealt) {
-        super(app, hb, sprite, "entities.json", maxHealth, damageDealt);
+    constructor(app, world, hb, sprite, maxHealth, damageDealt) {
+        super(app, world, hb, sprite, "entities.json", maxHealth, damageDealt);
         super.speedX = 0.5;
         super.maxVelX = 5;
         super.maxVelY = 6;
@@ -360,8 +360,8 @@ class Enemy extends Living {
 
 class EnemySlime extends Enemy {
     walkAnim = "slime_shitty_walk";
-    constructor(app, hb) {
-        super(app, hb, getSingleFromSpritesheet("entities.json", "slime_shitty_idle_0"), 4, 1);
+    constructor(app, world, hb) {
+        super(app,world, hb, getSingleFromSpritesheet("entities.json", "slime_shitty_idle_0"), 4, 1);
         super.speedX = 0.2;
         super.speedY = 5;
         this.idleAnim = "slime_shitty_idle";
@@ -385,8 +385,8 @@ class EnemySlime extends Enemy {
 
 class EnemyBat extends Enemy {
     walkAnim = "bat_fly";
-    constructor(app, hb) {
-        super(app, hb, getSingleFromSpritesheet("entities.json", "bat_fly_0"), 4, 1);
+    constructor(app, world, hb) {
+        super(app, world, hb, getSingleFromSpritesheet("entities.json", "bat_fly_0"), 4, 1);
         super.speedX = 4;
         super.speedY = 4;
         this.gravity = 0;
@@ -457,8 +457,8 @@ class EnemyBat extends Enemy {
 
 class PickupItem extends Entity {
     pickupSound;
-    constructor(app, sprite, spritesheet, player) {
-        super(app, sprite, spritesheet);
+    constructor(app, world, sprite, spritesheet, player) {
+        super(app, world, sprite, spritesheet);
         this.player = player;
         if(!this.pickupSound) {
             this.pickupSound = PIXI.loader.resources['assets/sound/pickup.wav'].sound;
@@ -476,8 +476,8 @@ class PickupItem extends Entity {
     }
 }
 class AmmoPickup extends PickupItem {
-    constructor(app, sprite, spritesheet, player, forWeaponType) {
-        super(app, sprite, spritesheet, player);
+    constructor(app, world, sprite, spritesheet, player, forWeaponType) {
+        super(app, world, sprite, spritesheet, player);
         this.forWeaponType = forWeaponType;
     }
     onPickup(player) {
@@ -494,14 +494,14 @@ class AmmoPickup extends PickupItem {
 }
 
 class AmmoPickupRock extends AmmoPickup {
-    constructor(app, player) {
-        super(app, getSingleFromSpritesheet("tiles.json", "rock_shitty"), "tiles.json", player, Rock);
+    constructor(app, world, player) {
+        super(app, world, getSingleFromSpritesheet("tiles.json", "rock_shitty"), "tiles.json", player, Rock);
     }
 }
 
 class Projectile extends Entity {
-    constructor(app, sprite, spritesheet, dirVector, speed) {
-        super(app, sprite, spritesheet);
+    constructor(app, world, sprite, spritesheet, dirVector, speed) {
+        super(app, world, sprite, spritesheet);
         // Basically no cap here.
         super.maxVelX = 1000;
         super.maxVelY = 1000;
@@ -512,8 +512,8 @@ class Projectile extends Entity {
 
 }
 class ProjectileRock extends Projectile {
-    constructor(app, weaponRock, launcher, dirVector, speed) {
-        super(app, getSingleFromSpritesheet("projectiles.json", "projectile_rock"), "projectiles.json", dirVector, speed);
+    constructor(app, world, weaponRock, launcher, dirVector, speed) {
+        super(app, world, getSingleFromSpritesheet("projectiles.json", "projectile_rock"), "projectiles.json", dirVector, speed);
         this.weaponRock = weaponRock;
         this.launcher = launcher;
         this.hits = 0;

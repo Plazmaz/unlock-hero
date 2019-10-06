@@ -70,7 +70,7 @@ class Rock extends Weapon {
 
         let deltaVector = {x: Mouse.X - worldPos.x, y: Mouse.Y - worldPos.y};
         deltaVector = normalize(deltaVector);
-        let entity = new ProjectileRock(this.app, this, living, deltaVector, 20);
+        let entity = new ProjectileRock(this.app, world, this, living, deltaVector, 20);
         entity.launcher = living;
         entity.setX(living.getX());
         entity.setY(living.getY());
