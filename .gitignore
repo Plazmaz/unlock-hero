@@ -2,5 +2,7 @@
 !.gitignore
 !src
 !src/**
+!assets
+!assets/**
 !*.md
 !*.html
