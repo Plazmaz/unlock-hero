@@ -356,7 +356,7 @@ class EnemySlime extends Enemy {
         super(app, hb, 4, 1);
         super.speedX = 0.2;
         super.speedY = 5;
-        this.idleAnim = "slime_idle"
+        this.idleAnim = "slime_idle";
     }
     update(delta, world) {
         if(Math.random() * 100 <= 30) {
