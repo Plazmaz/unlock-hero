@@ -30,8 +30,7 @@ function init() {
         .add("assets/images/sprites/tiles.json")
         .add("assets/images/sprites/entities.json")
         .add("assets/images/sprites/projectiles.json")
-        .add("assets/images/sprites/platforms.json")
-        .add("assets/font/PressStart2P-Regular.ttf")
+        .add("assets/credits.txt")
         .load(loadFinished);
 
     document.body.appendChild(app.view);
@@ -69,7 +68,17 @@ let unlockAnnouncer;
 let killCounter;
 let ammoCounter;
 let hb;
-
+// Menu stage:
+let menuBg;
+let titleText;
+let playButton;
+let creditsButton;
+// End menu stage
+// Credits stage:
+let credits;
+// End credits stage
+let paused = false;
+let stage = 0;
 function runUpdate(delta) {
     let now = performance.now();
     if (now - lastSlimeSpawnTime >= slimeSpawnInterval) {
@@ -88,8 +97,8 @@ function runUpdate(delta) {
 
 }
 
-function loadFinished() {
-    noAmmoSound = PIXI.loader.resources['assets/sound/no_ammo.wav'].sound;
+function initMainStage() {
+    stage = 1;
     world = new World(app, false);
     hb = new HealthBar(app, new PIXI.Rectangle(0, 0, 500, 80), 20, 20, true);
 
@@ -109,8 +118,80 @@ function loadFinished() {
     world.entities.push(player);
 
     app.ticker.add((delta) => {
-        runUpdate(delta)
+        if(!paused) {
+            runUpdate(delta)
+        }
     });
+}
+function fadeOutBg(lightness, cb) {
+    if(lightness <= 0) {
+        cb();
+    } else {
+        lightness -= 0.005;
+        menuBg.color.setLight(lightness, lightness, lightness);
+        requestAnimationFrame(() => fadeOutBg(lightness, cb))
+    }
+}
+function initMainMenuStage() {
+    stage = 0;
+    let unit = app.screen.height / 20;
+    menuBg = new PIXI.heaven.Sprite(PIXI.Texture.WHITE);
+    menuBg.tint = 0x1f6067;
+
+    menuBg.anchor.set(0.5);
+    menuBg.width = app.screen.width;
+    menuBg.height = app.screen.height;
+    app.stage.addChild(menuBg);
+    titleText = new TextDisplay(app, new PIXI.Rectangle(0, -4 * unit, 160, 40), "Unlock Adventure", 42, 0xaa3832);
+    playButton = new TextButton(app, new PIXI.Rectangle(0, -2 * unit, 80, 20), "Play Game", 24, 0xFFFFFF, 0x888888);
+    creditsButton = new TextButton(app, new PIXI.Rectangle(0, -1 * unit, 80, 20), "Credits", 24, 0xFFFFFF, 0x888888);
+    creditsButton.click = () => {
+        destroyMainMenuStage();
+        initCreditsStage();
+    };
+    playButton.click = () => {
+        requestAnimationFrame(() => fadeOutBg(menuBg.color.light[0], () => {
+            destroyMainMenuStage();
+            initMainStage();
+        }))
+
+    };
+    app.stage.position.set(app.screen.width / 2, app.screen.height / 2);
+}
+function initCreditsStage() {
+    stage = 2;
+    let unit = app.screen.height / 20;
+    titleText = new TextDisplay(app, new PIXI.Rectangle(0, -4 * unit, 160, 40), "Credits", 42, 0xFFFFFF);
+    playButton = new TextButton(app, new PIXI.Rectangle(0, -3 * unit, 80, 20), "Go Back", 36, 0x46a152, 0x7ac483);
+    playButton.click = () => {
+        destroyCreditsStage();
+        initMainMenuStage();
+    };
+    credits = new TextDisplay(app, new PIXI.Rectangle(0, unit, app.screen.width, 20), PIXI.loader.resources['assets/credits.txt'].data,
+        24, 0xFFFFFF, true);
+
+
+}
+function destroyCreditsStage() {
+    titleText.destroy();
+    playButton.destroy();
+    credits.destroy();
+}
+function destroyMainMenuStage() {
+    titleText.destroy();
+    playButton.destroy();
+    creditsButton.destroy();
+    menuBg.destroy();
+}
+
+function loadFinished() {
+    noAmmoSound = PIXI.loader.resources['assets/sound/no_ammo.wav'].sound;
+    initMainMenuStage();
+    // initMainStage();
+
+    // for (let i = 0; i < 200; i++) {
+    //     performUnlocks(i);
+    // }
     // app.stage.addChild(getSprite("char.png"))
 }
 
@@ -176,6 +257,7 @@ function performUnlocks(killCount) {
         case 135:
             unlockAnnouncer.setUnlocked("Even More Slimes");
             slimeSpawnInterval = 3 * 1000;
+            world.slimeBaseHealthMod++;
             break;
         case 150:
             unlockAnnouncer.setUnlocked("Regen (Phew)");
@@ -183,7 +265,8 @@ function performUnlocks(killCount) {
             break;
         case 165:
             unlockAnnouncer.setUnlocked("Slimeaggedon");
-            slimeSpawnCount += 3;
+            slimeSpawnCount += 2;
+            world.slimeBaseHealthMod++;
             break;
         case 170:
             unlockAnnouncer.setUnlocked("Stick sharpening (hurts more)");
@@ -195,20 +278,75 @@ function performUnlocks(killCount) {
             break;
         case 210:
             unlockAnnouncer.setUnlocked("Slimepocalypse");
-            slimeSpawnCount += 3;
+            slimeSpawnCount += 2;
             break
         // case 3:
         //     app.renderer.backgroundColor = 0x60959a;
         //     break;
     }
 }
-
 window.addEventListener('playerkill', (e) => {
     this.performUnlocks(e.totalKills)
 });
 window.addEventListener('resize', () => {
     app.renderer.resize(window.innerWidth, window.innerHeight);
-    unlockAnnouncer.bounds = new PIXI.Rectangle(app.screen.width / 2, 160, 500, 80);
-    killCounter.bounds = new PIXI.Rectangle(16, 90, 500, 80);
-    ammoCounter.bounds = new PIXI.Rectangle(16, 128, 500, 80);
+    app.stage.position.set(app.screen.width / 2, app.screen.height / 2);
+    let unit = app.screen.height / 20;
+    if(stage === 0) {
+        titleText.bounds = new PIXI.Rectangle(0, -4 * unit, 160, 40);
+        playButton.bounds = new PIXI.Rectangle(app.screen.width / 2, 500, 500, 80);
+        creditsButton.bounds = new PIXI.Rectangle(0, -1 * unit, 80, 20);
+        menuBg.width = app.screen.width;
+        menuBg.height = app.screen.height;
+    } else if(stage === 1) {
+        unlockAnnouncer.bounds = new PIXI.Rectangle(app.screen.width / 2, 160, 500, 80);
+        killCounter.bounds = new PIXI.Rectangle(16, 90, 500, 80);
+        ammoCounter.bounds = new PIXI.Rectangle(16, 128, 500, 80);
+        if(paused) {
+            pauseOverlay.position.x = -app.screen.width / 2;
+            pauseOverlay.position.y = app.screen.height / 2;
+            pauseOverlay.width = app.screen.width;
+            pauseOverlay.height = app.screen.height;
+            pauseText.bounds = new PIXI.Rectangle(0, app.screen.height / 2, 160, 40);
+            pauseText.update(0);
+        }
+    } else if (stage === 2) {
+        titleText.bounds = new PIXI.Rectangle(0, -4 * unit, 160, 40);
+        playButton.bounds = new PIXI.Rectangle(0, -3 * unit, 80, 20);
+        credits.bounds = new PIXI.Rectangle(app.screen.width / 2, 500, 500, 80);
+    }
 });
+let pauseOverlay;
+let pauseText;
+window.addEventListener("keyup", (e) => {
+    if (stage === 1 && e.key === "Escape") {
+        paused = !paused;
+        if(paused) {
+            pauseOverlay = new PIXI.heaven.Sprite(PIXI.Texture.WHITE);
+            pauseOverlay.tint = 0x00000;
+            pauseOverlay.alpha = 0.5;
+            pauseOverlay.anchor.set(0);
+            pauseOverlay.position.x = -app.screen.width / 2;
+            pauseOverlay.position.y = app.screen.height / 2;
+
+            let relX =  app.screen.width / 2;
+            let relY = app.screen.height / 2;
+            pauseOverlay.position.x = app.stage.pivot.x - relX;
+            pauseOverlay.position.y = app.stage.pivot.y - relY;
+            pauseOverlay.width = app.screen.width;
+            pauseOverlay.height = app.screen.height;
+            app.stage.addChild(pauseOverlay);
+            pauseText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 200, 160, 40),
+                "      Game Paused\n(Press Escape to Unpause)", 42, 0xFFFFFF);
+            pauseText.sticky = true;
+            pauseText.update(0)
+        } else {
+            if(pauseOverlay) {
+                app.stage.removeChild(pauseOverlay);
+                pauseText.destroy();
+            }
+        }
+
+        e.preventDefault();
+    }
+},false);

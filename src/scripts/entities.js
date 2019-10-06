@@ -282,7 +282,7 @@ class Player extends Living {
         this.type = this.TYPE_PLAYER;
         this.weaponMelee = new Fist(app, this.world);
         this.weaponRanged = new Rock(app, this.world);
-        // this.maxVelY = 12;
+        this.maxVelY = 10;
         this.speedY = 6;
     }
     onKill(entityKilled) {

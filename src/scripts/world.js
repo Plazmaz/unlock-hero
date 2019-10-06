@@ -4,6 +4,7 @@ class World {
     spawnRocks = false;
     platforms = [];
     entities = [];
+    slimeBaseHealthMod = 0;
 
     constructor(app, debug) {
         // this.groundTex = getSingleTextureFromSpritesheet("tiles.json", "ground_dirt");
@@ -94,6 +95,9 @@ class World {
         }
 
         let enemy = new EnemySlime(this.app, hb);
+        enemy.maxHealth += this.slimeBaseHealthMod;
+        enemy.health += this.slimeBaseHealthMod;
+        enemy.healthBar.setHealth(enemy.health, enemy.maxHealth);
         enemy.setX(x);
         enemy.setY(y);
         this.entities.push(enemy);

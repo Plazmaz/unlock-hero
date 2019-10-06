@@ -1,0 +1,16 @@
+Art and animations: Caidan Williams (@_mildmelon)
+
+Code: Dylan Katz (@Plazmaz)
+
+Bump License: MIT (https://github.com/kittykatattack/bump/blob/master/LICENSE.txt)
+PIXI-Heaven License: MIT (https://github.com/gameofbombs/pixi-heaven/blob/master/LICENSE)
+PIXI-Sound License: MIT (https://github.com/pixijs/pixi-sound/blob/master/LICENSE)
+PixiJS License: MIT (https://github.com/pixijs/pixi.js/blob/dev/LICENSE)
+
+Font: Press Start 2P, under the Open Font License (OFL)
+
+Music from https://filmmusic.io
+"Cold Funk" by Kevin MacLeod (https://incompetech.com)
+"District Four" by Kevin MacLeod (https://incompetech.com)
+"Just Nasty" by Kevin MacLeod (https://incompetech.com)
+Music License: CC BY (http://creativecommons.org/licenses/by/4.0/)

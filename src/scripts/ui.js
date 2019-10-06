@@ -51,6 +51,39 @@ class UIElement {
         this.targetAlpha = alpha;
     }
 }
+class TextButton extends UIElement {
+    constructor(app, bounds, text, fontSize, color, colorHover) {
+        super(app, bounds, [], false);
+        let padding = 20;
+        this.text = new PIXI.Text(text, {fontFamily: 'Press Start 2P', fontSize: fontSize, fill: color});
+        this.text.anchor.set(0.5);
+        this.text.interactive = true;
+        this.text.hitArea = new PIXI.Rectangle(-this.text.width / 2 - padding, -this.text.height / 2 - padding, this.text.width + padding, this.text.height + padding);
+        this.text.click = (e) => {this.click(e)};
+        this.text.buttonMode = true;
+        this.text.mouseover = () => {
+            this.text.style.fill = this.colorHover;
+        };
+        this.text.mouseout = () => {
+            this.text.style.fill = this.color;
+        };
+        this.text.position.set(this.bounds.x, this.bounds.y);
+        this.setSprites(this.text);
+        this.color = color;
+        this.colorHover = colorHover;
+    }
+}
+class TextDisplay extends UIElement {
+    constructor(app, bounds, text, fontSize, color, wrap) {
+        super(app, bounds, [], false);
+        this.text = new PIXI.Text(text, {fontFamily: 'Press Start 2P', fontSize: fontSize, fill: color, wordWrap: wrap, wordWrapWidth: bounds.width});
+        this.text.anchor.set(0.5);
+        this.text.position.set(this.bounds.x, this.bounds.y);
+        this.setSprites(this.text);
+        this.color = color;
+    }
+}
+
 class UnlockAnnouncer extends UIElement {
     constructor(app, bounds) {
         super(app, bounds, [], true);
