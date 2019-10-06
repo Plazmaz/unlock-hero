@@ -153,13 +153,13 @@ function initMainMenuStage() {
     stage = 0;
     let unit = app.screen.height / 20;
     menuBg = new PIXI.heaven.Sprite(PIXI.Texture.WHITE);
-    menuBg.tint = 0x1f6067;
+    menuBg.tint = 0x393939;
 
     menuBg.anchor.set(0.5);
     menuBg.width = app.screen.width;
     menuBg.height = app.screen.height;
     app.stage.addChild(menuBg);
-    titleText = new TextDisplay(app, new PIXI.Rectangle(0, -4 * unit, 160, 40), "Unlock Hero", 42, 0xaa3832);
+    titleText = new TextDisplay(app, new PIXI.Rectangle(0, -3.5 * unit, 160, 40), "Unlock Hero", 60, 0xaa3832);
     playButton = new TextButton(app, new PIXI.Rectangle(0, -2 * unit, 80, 20), "Play Game", 24, 0xFFFFFF, 0x888888);
     creditsButton = new TextButton(app, new PIXI.Rectangle(0, -1 * unit, 80, 20), "Credits", 24, 0xFFFFFF, 0x888888);
     creditsButton.click = () => {
