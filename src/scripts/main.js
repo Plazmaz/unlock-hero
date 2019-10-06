@@ -225,6 +225,17 @@ function startMusicPlay() {
     nextSong();
 }
 
+function zPad(str) {
+	let max = 5;
+	str = str.toString();
+	return str.padStart(max, "0");
+}
+function lPad(str) {
+	let max = 16;
+	str = str.toString();
+	return str.padEnd(max, " ");
+}
+
 function performUnlocks(killCount) {
     switch (killCount) {
         case 3:
@@ -417,29 +428,29 @@ function setGameOver() {
     pauseOverlay.width = app.screen.width;
     pauseOverlay.height = app.screen.height;
     app.stage.addChild(pauseOverlay);
-    pauseText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 200, 160, 40),
-        "GAME OVER", 72, 0xaa3832);
+    pauseText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 100, 160, 40),
+        "GAME OVER", 60, 0xaa3832);
     pauseText.sticky = true;
     pauseText.update(0);
-    let scoreText = "Final Score: " + world.player.killCount;
+    let scoreText = "\n" + lPad("Final Score: ") + zPad(world.player.killCount) + "\n";
     let storedScore = localStorage.getItem("highScore") || 0;
     if(storedScore < world.player.killCount) {
-        scoreText += "\nNew High Score: " + world.player.killCount;
-        scoreText += "\nYour Previous High Score: " + storedScore;
+        scoreText += "\n" + lPad("New High Score: ") + zPad(world.player.killCount);
+        scoreText += "\n" + lPad("Old High Score: ") + zPad(storedScore);
         localStorage.setItem("highScore", world.player.killCount);
     } else {
-        scoreText += "\nYour High Score: " + storedScore;
+        scoreText += "\n" + lPad("High Score: ") + zPad(storedScore);
     }
-    let finalScore = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 100, 160, 40),
-        scoreText, 42, 0xFFFFFF);
+    let finalScore = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2, 160, 40),
+        scoreText, 24, 0xFFFFFF);
     finalScore.sticky = true;
     finalScore.update(0);
 
     if(music) {
         music.pause();
     }
-    let backButton = new TextButton(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2, 80, 20), "Return to Menu",
-        36, 0x46a152, 0x7ac483);
+    let backButton = new TextButton(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 + 100, 80, 20),
+		"Return to Menu", 24, 0x46a152, 0x7ac483);
     backButton.sticky = true;
     backButton.update(0);
     backButton.click = () => {
