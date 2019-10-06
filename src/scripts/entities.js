@@ -388,7 +388,7 @@ class EnemyColoredSlime extends Enemy {
     constructor(app, world, hb) {
         super(app,world, hb, getSingleFromSpritesheet("entities.json", "slime_idle_0"), 4, 1);
         super.idleAnim = "slime_idle";
-        super.walkAnim = "slime_idle";
+        super.walkAnim = "slime_walk";
     }
     update(delta, world) {
         if(Math.random() * 100 <= 30) {
