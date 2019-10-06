@@ -1,6 +1,8 @@
-Art and animations: Caidan Williams (@_mildmelon)
+Art and Animations: Caidan Williams (@_mildmelon)
+https://github.com/mildmelon/
 
 Code: Dylan Katz (@Plazmaz)
+https://github.com/Plazmaz
 
 Bump License: MIT (https://github.com/kittykatattack/bump/blob/master/LICENSE.txt)
 PIXI-Heaven License: MIT (https://github.com/gameofbombs/pixi-heaven/blob/master/LICENSE)
