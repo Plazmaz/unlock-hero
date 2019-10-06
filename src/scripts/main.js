@@ -100,11 +100,6 @@ function loadFinished() {
     app.ticker.add((delta) => {
         runUpdate(delta)
     });
-    // hax
-    performUnlocks(60);
-    performUnlocks(120);
-    performUnlocks(190);
-    //
 
     // app.stage.addChild(getSprite("char.png"))
 }
