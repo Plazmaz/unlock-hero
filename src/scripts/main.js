@@ -246,18 +246,6 @@ function performUnlocks(killCount) {
             hb.setAlpha(1);
             break;
         case 15:
-            unlockAnnouncer.setUnlocked("Blue Skies");
-            app.renderer.backgroundColor = 0x60959a;
-            break;
-        case 20:
-            unlockAnnouncer.setUnlocked("Jamming");
-            startMusicPlay();
-            break;
-        case 25:
-            unlockAnnouncer.setUnlocked("A Big Stick");
-            world.player.weaponMelee = new Stick(app, world);
-            break;
-        case 30:
             unlockAnnouncer.setUnlocked("Enemy Health");
             world.entityHBUnlocked = true;
             world.entities.forEach((entity) => {
@@ -265,6 +253,18 @@ function performUnlocks(killCount) {
                     entity.healthBar.setAlpha(1);
                 }
             });
+            break;
+        case 20:
+            unlockAnnouncer.setUnlocked("Jamming");
+            startMusicPlay();
+            break;
+        case 25:
+            unlockAnnouncer.setUnlocked("Blue Skies");
+            app.renderer.backgroundColor = 0x60959a;
+            break;
+        case 30:
+            unlockAnnouncer.setUnlocked("A Big Stick");
+            world.player.weaponMelee = new Stick(app, world);
             break;
         case 40:
             unlockAnnouncer.setUnlocked("Dirt and grass. Congrats");
@@ -280,7 +280,7 @@ function performUnlocks(killCount) {
             ammoCounter.setAlpha(1);
             break;
         case 65:
-            unlockAnnouncer.setUnlocked("Platforms for platforming");
+            unlockAnnouncer.setUnlocked("Platforms for platforming...");
             world.spawnPlatforms();
             break;
         case 70:
@@ -301,7 +301,9 @@ function performUnlocks(killCount) {
             break;
         case 120:
             unlockAnnouncer.setUnlocked("INFINITE ROCKS");
-            world.player.weaponRanged.ammo = 1;
+            if (world.player.weaponRanged.ammo <= 0) {
+                world.player.weaponRanged.ammo = 1;
+            }
             world.player.weaponRanged.consumable = false;
             break;
         case 135:
