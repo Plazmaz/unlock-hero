@@ -27,6 +27,7 @@ function init() {
         .add("assets/sound/punch.wav")
         .add("assets/sound/rock.wav")
         .add("assets/sound/unlock.wav")
+        .add("assets/sound/player-hurt.wav")
         .add("assets/music/cold-funk.mp3")
         .add("assets/music/district-four.mp3")
         .add("assets/music/just-nasty.mp3")

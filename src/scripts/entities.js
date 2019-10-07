@@ -207,7 +207,7 @@ class Living extends Entity {
     takeDamage(amount) {
         let curDamageTime = performance.now();
         if((curDamageTime - this.lastDamaged) / 1000 < this.damageCooldownSec) {
-            return;
+            return false;
         }
 
         this.lastDamaged = curDamageTime;
@@ -218,6 +218,7 @@ class Living extends Entity {
         if(this.health <= 0) {
             this.kill()
         }
+        return true;
     }
 
     attack(entities, damage, knockbackAmount, ignoreCooldown) {
@@ -289,12 +290,18 @@ class Player extends Living {
         this.maxVelY = 10;
         this.speedY = 6;
         this.gravity = 0.28;
+        this.hurtSound = PIXI.loader.resources['assets/sound/player-hurt.wav'].sound;
     }
     onKill(entityKilled) {
         let event = new CustomEvent('playerkill');
         event.player = this;
         event.totalKills = this.killCount;
         window.dispatchEvent(event);
+    }
+    takeDamage(amount) {
+        if(super.takeDamage(amount)) {
+            this.hurtSound.play();
+        }
     }
 
     setAnimationNames(walkAnim, idleAnim, meleeAnim, throwAnim) {
