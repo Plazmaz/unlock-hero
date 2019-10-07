@@ -1,0 +1,20 @@
+{"frames": {
+
+"projectile_rock":
+{
+	"frame": {"x":1,"y":1,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "projectiles.png",
+	"format": "RGBA8888",
+	"size": {"w":18,"h":18},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:8d3c321e198cb6470a0d7e95837865bc:787d32ce9cf49f2c0e1a9c07a695712a:9b6e6842273e8724f51d1457138f1678$"
+}
+}

@@ -4,6 +4,8 @@
 !src/**
 !assets
 !assets/**
+!art-src
+!art-src/**
 !*.md
 !*.html
 !favicon.png
