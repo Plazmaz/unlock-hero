@@ -159,7 +159,7 @@ function initMainMenuStage() {
     menuBg.width = app.screen.width;
     menuBg.height = app.screen.height;
     app.stage.addChild(menuBg);
-    titleText = new TextDisplay(app, new PIXI.Rectangle(0, -3.5 * unit, 160, 40), "Unlock Hero", 60, 0xaa3832);
+    titleText = new TextDisplay(app, new PIXI.Rectangle(0, -3.5 * unit, 160, 40), "UNLOCK HERO", 60, 0xaa3832);
     playButton = new TextButton(app, new PIXI.Rectangle(0, -2 * unit, 80, 20), "Play Game", 24, 0xFFFFFF, 0x888888);
     creditsButton = new TextButton(app, new PIXI.Rectangle(0, -1 * unit, 80, 20), "Credits", 24, 0xFFFFFF, 0x888888);
     creditsButton.click = () => {
@@ -178,7 +178,7 @@ function initMainMenuStage() {
 function initCreditsStage() {
     stage = 2;
     let unit = app.screen.height / 20;
-    titleText = new TextDisplay(app, new PIXI.Rectangle(0, -9 * unit, 160, 40), "Credits", 60, 0xFFFFFF);
+    titleText = new TextDisplay(app, new PIXI.Rectangle(0, -9 * unit, 160, 40), "CREDITS", 60, 0xFFFFFF);
     playButton = new TextButton(app, new PIXI.Rectangle(0, -8 * unit, 80, 20), "Go Back", 24, 0x46a152, 0x7ac483);
     playButton.click = () => {
         destroyCreditsStage();
@@ -401,7 +401,7 @@ function pauseToggle() {
         pauseOverlay.height = app.screen.height;
         app.stage.addChild(pauseOverlay);
         pauseText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 175, 160, 40),
-            "Game Paused", 60, 0xFFFFFF);
+            "GAME PAUSED", 60, 0xFFFFFF);
 		helpText = new TextDisplay(app, new PIXI.Rectangle(app.screen.width / 2, app.screen.height / 2 - 100, 160, 40),
 			"(Press Escape to Unpause)", 24, 0xbababa);
         pauseText.sticky = true;
