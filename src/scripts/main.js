@@ -124,10 +124,10 @@ function initMainStage() {
     let unlockBounds = new PIXI.Rectangle(app.screen.width / 2, 160, 500, 80);
     unlockAnnouncer = new UnlockAnnouncer(app, unlockBounds, player);
 
-    let killCounterBounds = new PIXI.Rectangle(16, 90, 500, 80);
+    let killCounterBounds = new PIXI.Rectangle(25, 90, 500, 80);
     killCounter = new KillCounter(app, killCounterBounds, player);
 
-    let ammoCounterBounds = new PIXI.Rectangle(16, 128, 500, 80);
+    let ammoCounterBounds = new PIXI.Rectangle(25, 128, 500, 80);
     ammoCounter = new AmmoCounter(app, ammoCounterBounds, player);
 
     app.renderer.backgroundColor = 0;

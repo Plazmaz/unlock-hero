@@ -118,7 +118,7 @@ class UnlockAnnouncer extends UIElement {
 class AmmoCounter extends UIElement {
     constructor(app, bounds, player) {
         super(app, bounds, [], true);
-        this.text = new PIXI.Text("Ammo: 0", {fontFamily: 'Press Start 2P', fontSize: 24, fill: 0xFFFFFF});
+        this.text = new PIXI.Text("Ammo:  0", {fontFamily: 'Press Start 2P', fontSize: 24, fill: 0xFFFFFF});
         this.setSprites(this.text);
         this.player = player;
         this.setAlphaImmediate(0)
@@ -129,7 +129,7 @@ class AmmoCounter extends UIElement {
         this.setAmmo(this.player.weaponRanged.ammo)
     }
     setAmmo(amount) {
-        this.text.text = `Ammo: ${amount}`;
+        this.text.text = `Ammo:  ${amount}`;
     }
 
     setAlphaImmediate(alpha) {
