@@ -53,13 +53,13 @@ class Stick extends Weapon {
 }
 class Fist extends Weapon {
     constructor(app) {
-        super(app, "First", false, 1, 150, "player_shitty_punch", 100);
+        super(app, "Fist", false, 1, 150, "player_shitty_punch", 100);
         this.sound = PIXI.loader.resources['assets/sound/punch.wav'].sound;
     }
 }
 class Rock extends Weapon {
     constructor(app) {
-        super(app, "Rock", true, 2, 200, "player_shitty_ranged", 20);
+        super(app, "Rock", true, 2, 200, "player_shitty_ranged", 40);
         this.consumable = true;
         this.sound = PIXI.loader.resources['assets/sound/rock.wav'].sound;
         this.despawnAfterHits = 0;
