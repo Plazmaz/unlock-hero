@@ -231,7 +231,7 @@ class Living extends Entity {
             }
         }
         entities.forEach(entity => {
-            entity.takeDamage(this.damageDealt);
+            entity.takeDamage(damage);
             if(entity.health <= 0) {
                 this.killCount++;
                 this.onKill(entity)

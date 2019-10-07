@@ -63,6 +63,7 @@ class Rock extends Weapon {
         this.consumable = true;
         this.sound = PIXI.loader.resources['assets/sound/rock.wav'].sound;
         this.despawnAfterHits = 0;
+        this.damageDealt = this.damage;
     }
     launch(living, world) {
         let worldPos = {x: living.getX(), y: living.getY()};
