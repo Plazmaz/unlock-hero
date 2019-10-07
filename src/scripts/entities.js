@@ -288,6 +288,7 @@ class Player extends Living {
         this.weaponRanged = new Rock(app, this.world);
         this.maxVelY = 10;
         this.speedY = 6;
+        this.gravity = 0.25;
     }
     onKill(entityKilled) {
         let event = new CustomEvent('playerkill');
